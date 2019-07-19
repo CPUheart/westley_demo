@@ -2,13 +2,16 @@ package com.wf.demo.entity;
 
 public class Class {
     private Long id;
-    private String name;
-    private String teacher;
+    private String grade;
+    private String classNumber;
 
-    public Class(Long id, String name, String teacher) {
+    public Class() {
+    }
+
+    public Class(Long id, String grade, String classNumber) {
         this.id = id;
-        this.name = name;
-        this.teacher = teacher;
+        this.grade = grade;
+        this.classNumber = classNumber;
     }
 
     public Long getId() {
@@ -19,29 +22,28 @@ public class Class {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
-    public String getTeacher() {
-        return teacher;
+    public String getClassNumber() {
+        return classNumber;
     }
 
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
+    public void setClassNumber(String classNumber) {
+        this.classNumber = classNumber;
     }
 
     @Override
     public String toString() {
         return "Class{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", teacher='" + teacher + '\'' +
+                ", grade='" + grade + '\'' +
+                ", class_number='" + classNumber + '\'' +
                 '}';
     }
-
 }
