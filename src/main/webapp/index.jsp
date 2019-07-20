@@ -17,7 +17,7 @@
         h3 {
             width: 180px;
             height: 38px;
-            margin: 100px auto;
+            margin: 50px auto;
             text-align: center;
             line-height: 38px;
             background: deepskyblue;
@@ -39,7 +39,13 @@
 </div>
 <br><br>
 <h3>
-    <a href="${path }/class/allClass">点击进入管理页面</a>
+    <a href="${path }/class/allClass">班级信息管理</a>
+</h3>
+<h3>
+    <a href="${path }/student/allStudent">学生信息管理</a>
+</h3>
+<h3>
+    <a href="${path }/teacher/allTeacher">老师信息管理</a>
 </h3>
 </body>
 </html>

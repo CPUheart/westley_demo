@@ -4,7 +4,27 @@ public class Student {
     private String id;
     private String name;
     private String gender;
-    private int class_num;
+    private Long classId;
+
+    public Student() {
+    }
+
+    public Student(String id, String name, String gender, Long classId) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.classId = classId;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
+    }
+
+
 
     public String getId() {
         return id;
@@ -30,21 +50,13 @@ public class Student {
         this.gender = gender;
     }
 
-    public int getClass_num() {
-        return class_num;
-    }
-
-    public void setClass_num(int class_num) {
-        this.class_num = class_num;
-    }
-
     @Override
     public String toString() {
         return "Student{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
-                ", class_num=" + class_num +
+                ", classId=" + classId +
                 '}';
     }
 }
