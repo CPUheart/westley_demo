@@ -1,6 +1,8 @@
 package com.wf.demo.dao;
 
 import com.wf.demo.entity.Class;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -15,4 +17,7 @@ public interface ClassDao {
     Class queryById(Long id);
 
     List<Class> queryAllClass();
+
+    Class queryByGradeAndNumber(@Param("grade")String grade, @Param("classNumber") int classNumber);
+
 }

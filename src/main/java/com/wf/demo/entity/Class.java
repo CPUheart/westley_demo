@@ -3,12 +3,12 @@ package com.wf.demo.entity;
 public class Class {
     private Long id;
     private String grade;
-    private String classNumber;
+    private int classNumber;
 
     public Class() {
     }
 
-    public Class(Long id, String grade, String classNumber) {
+    public Class(Long id, String grade, int classNumber) {
         this.id = id;
         this.grade = grade;
         this.classNumber = classNumber;
@@ -30,11 +30,11 @@ public class Class {
         this.grade = grade;
     }
 
-    public String getClassNumber() {
+    public int getClassNumber() {
         return classNumber;
     }
 
-    public void setClassNumber(String classNumber) {
+    public void setClassNumber(int classNumber) {
         this.classNumber = classNumber;
     }
 

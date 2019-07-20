@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sun.security.krb5.SCDynamicStoreConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +36,10 @@ public class StudentController {
     }
 
     @RequestMapping("/addStudent")
-    public String addStudent(Student student) {
-        studentService.addStudent(student);
+    public String addStudent(StudentClass studentClass) {
+        Class _class = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
+
+        studentService.addStudent(new Student(studentClass.getId(),studentClass.getName(),studentClass.getGender(),_class.getId()));
         return "redirect:/student/allStudent";
     }
 
@@ -47,7 +48,7 @@ public class StudentController {
         return "addStudent";
     }
 
-    @RequestMapping("/deleteStudentById/{id}")
+    @RequestMapping("/deleteStudent/{id}")
     public String deleteStudentById(@PathVariable("id")String id) {
         studentService.deleteStudent(id);
         return "redirect:/student/allStudent";

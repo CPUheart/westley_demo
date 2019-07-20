@@ -64,8 +64,8 @@
                         <td>${StudentClass.grade}</td>
                         <td>${StudentClass.classNumber}</td>
                         <td>
-                            <a href="${path}/school/student/toUpdateStudent?id=${Student.id}">更改</a> |
-                            <a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>
+                            <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
+                            <a href="${path}/school/student/deleteStudent/${StudentClass.id}">删除</a>
                         </td>
                     </tr>
                 </c:forEach>

@@ -28,7 +28,7 @@
     </delete>
 
     <insert id="addStudent" parameterType="Student">
-        insert into student(name,gender,class_number) values(#{name}, #{gender}, #{classNumber})
+        insert into student(id,name,gender,class_id) values(#{id}, #{name}, #{gender}, #{classId})
     </insert>
 
 </mapper>

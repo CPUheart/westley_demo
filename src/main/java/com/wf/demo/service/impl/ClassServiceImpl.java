@@ -37,4 +37,9 @@ public class ClassServiceImpl implements ClassService {
     public List<Class> queryAllClass() {
         return classDao.queryAllClass();
     }
+
+    @Override
+    public Class queryByGradeAndNumber(String grade, int classNumber) {
+        return classDao.queryByGradeAndNumber(grade,classNumber);
+    }
 }

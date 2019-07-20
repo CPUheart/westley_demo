@@ -6,12 +6,20 @@ public class StudentClass {
     private String gender;
     private Long classId;
     private String grade;
-    private String classNumber;
+    private int classNumber;
 
     public StudentClass() {
     }
 
-    public StudentClass(String id, String name, String gender, Long classId, String grade, String classNumber) {
+    public StudentClass(String id, String name, String gender, String grade, int classNumber) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.grade = grade;
+        this.classNumber = classNumber;
+    }
+
+    public StudentClass(String id, String name, String gender, Long classId, String grade, int classNumber) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -60,11 +68,11 @@ public class StudentClass {
         this.grade = grade;
     }
 
-    public String getClassNumber() {
+    public int getClassNumber() {
         return classNumber;
     }
 
-    public void setClassNumber(String classNumber) {
+    public void setClassNumber(int classNumber) {
         this.classNumber = classNumber;
     }
 }

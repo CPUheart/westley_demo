@@ -15,4 +15,6 @@ public interface ClassService {
 
     List<Class> queryAllClass();
 
+    Class queryByGradeAndNumber(String grade, int classNumber);
+
 }

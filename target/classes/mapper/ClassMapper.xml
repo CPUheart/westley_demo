@@ -12,6 +12,10 @@
         select id,grade,class_number from class
     </select>
 
+    <select id="queryByGradeAndNumber" resultType="Class">
+        select id,grade,class_number from class where grade=#{grade} and class_number = #{classNumber}
+    </select>
+
     <insert id="addClass"  parameterType="Class">
         insert into class(grade,class_number) values (#{grade}, #{classNumber})
     </insert>
