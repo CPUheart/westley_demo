@@ -26,26 +26,32 @@ public class StudentController {
     @RequestMapping("/allStudent")
     public String list(Model model) {
         List<Student> students = studentService.queryAllStudent();
-        List<StudentClass> list = new ArrayList<StudentClass>();
+        List<StudentClass> list = new ArrayList<>();
         for (Student student:students) {
             Class _class = classService.queryById(student.getClassId());
             list.add(new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(),_class.getGrade(),_class.getClassNumber()));
         }
         model.addAttribute("list",list);
-        return "allStudent";
+        return "student/allStudent";
     }
 
     @RequestMapping("/addStudent")
-    public String addStudent(StudentClass studentClass) {
+    public String addStudent(StudentClass studentClass,Model model) {
         Class _class = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
-
-        studentService.addStudent(new Student(studentClass.getId(),studentClass.getName(),studentClass.getGender(),_class.getId()));
-        return "redirect:/student/allStudent";
+        if(_class==null){
+            model.addAttribute("grade",studentClass.getGrade());
+            model.addAttribute("classNumber",studentClass.getClassNumber());
+            return "student/studentError";
+        }
+        else {
+            studentService.addStudent(new Student(studentClass.getId(), studentClass.getName(), studentClass.getGender(), _class.getId()));
+            return "redirect:/student/allStudent";
+        }
     }
 
     @RequestMapping("/toAddStudent")
     public String toAddStudent() {
-        return "addStudent";
+        return "student/addStudent";
     }
 
     @RequestMapping("/deleteStudent/{id}")
@@ -57,12 +63,20 @@ public class StudentController {
     @RequestMapping("/updateStudent")
     public String updateStudent(Model model, StudentClass studentClass) {
         Class _class = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
-        studentService.updateStudent(new Student(studentClass.getId(),studentClass.getName(),studentClass.getGender(),_class.getId()));
-        Student student = studentService.queryById(studentClass.getId());
-        _class=classService.queryById(student.getClassId());
+        if(_class==null){
+            model.addAttribute("grade",studentClass.getGrade());
+            model.addAttribute("classNumber",studentClass.getClassNumber());
+            return "student/studentError";
+        }
+        else {
 
-        model.addAttribute("studentClass", new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(),_class.getGrade(),_class.getClassNumber()));
-        return "redirect:/student/allStudent";
+            studentService.updateStudent(new Student(studentClass.getId(), studentClass.getName(), studentClass.getGender(), _class.getId()));
+//            Student student = studentService.queryById(studentClass.getId());
+//            _class = classService.queryById(student.getClassId());
+
+//            model.addAttribute("studentClass", new StudentClass(student.getId(), student.getName(), student.getGender(), student.getClassId(), _class.getGrade(), _class.getClassNumber()));
+            return "redirect:/student/allStudent";
+        }
     }
 
     @RequestMapping("/toUpdateStudent")
@@ -71,9 +85,6 @@ public class StudentController {
         Class _class = classService.queryById(student.getClassId());
 
         model.addAttribute("studentClass",new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(),_class.getGrade(),_class.getClassNumber()));
-        return "updateStudent";
+        return "student/updateStudent";
     }
-
-
-
 }

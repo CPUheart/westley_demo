@@ -31,7 +31,7 @@
         <div class="col-md-12 column">
             <div class="page-header">
                 <h1>
-                    学校信息管理系统
+                    <a href="http://localhost:8081/school/">学校信息管理系统</a>
                 </h1>
             </div>
         </div>

@@ -18,6 +18,8 @@ public interface ClassDao {
 
     List<Class> queryAllClass();
 
+    List<Class> queryByGrade(String grade);
+
     Class queryByGradeAndNumber(@Param("grade")String grade, @Param("classNumber") int classNumber);
 
 }

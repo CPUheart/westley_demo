@@ -39,6 +39,11 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
+    public List<Class> queryByGrade(String grade) {
+        return classDao.queryByGrade(grade);
+    }
+
+    @Override
     public Class queryByGradeAndNumber(String grade, int classNumber) {
         return classDao.queryByGradeAndNumber(grade,classNumber);
     }

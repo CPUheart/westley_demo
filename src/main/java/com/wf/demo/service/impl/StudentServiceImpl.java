@@ -37,4 +37,8 @@ public class StudentServiceImpl implements StudentService {
     public Student queryById(String id) {
         return studentDao.queryById(id);
     }
+
+    @Override
+    public List<Student> queryByClassId(Long id) { return studentDao.queryByClassId(id); }
+
 }

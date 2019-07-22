@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wf.demo.dao.TeacherClassDao">
+    <resultMap id="teacherClassResultMap" type="TeacherClass">
+        <id property="teacherId" column="teacher_id"/>
+        <id property="classId" column="class_id"/>
+        <result property="advisor" column="advisor"/>
+    </resultMap>
+    <select id="queryAllTeacherClass" resultMap="teacherClassResultMap">
+        select * from teacher_class
+    </select>
+
+    <select id="queryAdvisorByClassId" resultType="TeacherClass">
+        select * from teacher_class where class_id = #{classId} and advisor=1
+    </select>
+
+    <select id="queryByTeacher" resultMap="teacherClassResultMap">
+        select * from teacher_class where teacher_id=#{teacherId}
+    </select>
+
+    <select id="queryByAdvisor" resultType="TeacherClass">
+        select * from teacher_class where teacher_id=#{teacherId} and advisor=1
+    </select>
+
+    <select id="queryByClassId" resultMap="teacherClassResultMap">
+        select * from teacher_class where class_id=#{classId}
+    </select>
+
+    <insert id="addTeacherClass" parameterType="TeacherClass">
+        insert into teacher_class(teacher_id,class_id,advisor) values(#{teacherId},#{classId},#{advisor})
+    </insert>
+
+    <update id="updateTeacherClass" parameterType="TeacherClass">
+        update teacher_class set advisor=#{advisor} where teacher_id=#{teacherId} and class_id=#{classId}
+    </update>
+
+    <delete id="deleteTeacherClass">
+        delete from teacher_class where teacher_id=#{teacherId} and class_id=#{classId}
+    </delete>
+
+    <delete id="deleteByClassId">
+        delete from teacher_class where class_id=#{classId}
+    </delete>
+
+</mapper>

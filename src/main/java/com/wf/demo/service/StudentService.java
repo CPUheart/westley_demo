@@ -16,4 +16,6 @@ public interface StudentService {
 
     Student queryById(String id);
 
+    List<Student> queryByClassId(Long id);
+
 }

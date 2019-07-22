@@ -17,6 +17,10 @@
         select * from student where id = #{id}
     </select>
 
+    <select id="queryByClassId" resultMap="studentResultMap">
+        select * from student where class_id=#{classId}
+    </select>
+
     <update id="updateStudent" parameterType="Student">
         update student s
         set s.name = #{name}, s.gender = #{gender}, s.class_id = #{classId}
