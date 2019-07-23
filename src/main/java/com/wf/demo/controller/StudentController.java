@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,19 @@ public class StudentController {
         }
         model.addAttribute("list",list);
         return "student/allStudent";
+    }
+
+    @RequestMapping("/queryByClass")
+    public String queryByClass(Model model, String grade, int classNumber) {
+        Class _class = classService.queryByGradeAndNumber(grade,classNumber);
+        if(_class==null) {
+            model.addAttribute("grade",grade);
+            model.addAttribute("classNumber",classNumber);
+            return "student/studentError";
+        }
+        List<Student> list = studentService.queryByClassId(_class.getId());
+        model.addAttribute("list",list);
+        return "student/resultStudent";
     }
 
     @RequestMapping("/addStudent")

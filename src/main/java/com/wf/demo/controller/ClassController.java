@@ -94,6 +94,7 @@ public class ClassController {
 //
 //    }
 
+
     @RequestMapping("/addClass")
     public String addClass(Model model, Class _class, String advisorId) {
         if(classService.queryByGradeAndNumber(_class.getGrade(),_class.getClassNumber())!=null) {

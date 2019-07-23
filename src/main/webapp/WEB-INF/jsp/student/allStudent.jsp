@@ -7,6 +7,12 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%  String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>学生列表</title>
@@ -38,6 +44,20 @@
     <div class="row">
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${path}/school/student/toAddStudent">新增</a>
+        </div>
+        <div class="col-md-4 column"><form>
+            <input type="text" name="grade">
+            <input type="text" name="classNumber">
+            <input type="button" value="按班级搜索" onclick="queryByClass()">
+        </form>
+            <script type="text/javascript">
+                function queryByClass() {
+                    var form = document.forms[0];
+                    form.action = "<%=basePath %>student/queryByClass";
+                    form.method = "post";
+                    form.submit();
+                }
+            </script>
         </div>
     </div>
     <div class="row clearfix">

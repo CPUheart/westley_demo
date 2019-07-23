@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: WF
-  Date: 2019/7/20
-  Time: 13:34
+  Date: 2019/7/23
+  Time: 9:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -68,22 +68,18 @@
                     <th>学号</th>
                     <th>姓名</th>
                     <th>性别</th>
-                    <th>年级</th>
-                    <th>班级</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="StudentClass" items="${requestScope.get('list')}" varStatus="status">
+                <c:forEach var="Student" items="${requestScope.get('list')}" varStatus="status">
                     <tr>
-                        <td>${StudentClass.id}</td>
-                        <td>${StudentClass.name}</td>
-                        <td>${StudentClass.gender}</td>
-                        <td>${StudentClass.grade}</td>
-                        <td>${StudentClass.classNumber}</td>
+                        <td>${Student.id}</td>
+                        <td>${Student.name}</td>
+                        <td>${Student.gender}</td>
                         <td>
-                            <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
-                            <a href="${path}/school/student/deleteStudent/${StudentClass.id}">删除</a>
+                            <a href="${path}/school/student/toUpdateStudent?id=${Student.id}">更改</a> |
+                            <a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>
                         </td>
                     </tr>
                 </c:forEach>
