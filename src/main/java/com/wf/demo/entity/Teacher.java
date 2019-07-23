@@ -29,12 +29,4 @@ public class Teacher {
         this.gender = gender;
     }
 
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
-    }
 }

@@ -1,6 +1,7 @@
 package com.wf.demo.controller;
 
 import com.wf.demo.entity.Class;
+import com.wf.demo.entity.Student;
 import com.wf.demo.entity.Teacher;
 import com.wf.demo.entity.TeacherClass;
 import com.wf.demo.entity.combine.ClassTeacher;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +51,36 @@ public class ClassController {
         return "class/allClass";
     }
 
+    @RequestMapping("/classInfo")
+    public String classInfo(Model model, Long id) {
+        Class _class = classService.queryById(id);
+        List<Student> students = studentService.queryByClassId(id);
+        Teacher teacher = teacherService.queryByLeadClass(id);
+        int studentAmount = students.size();
+        model.addAttribute("studentAmount", studentAmount);
+        model.addAttribute("students", students);
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("class",_class);
+        return "class/classInfo";
+    }
+
     @RequestMapping("/queryByGrade")
     public String queryByGrade(Model model, String grade) {
-        List<Class> list = classService.queryByGrade(grade);
-        model.addAttribute("resultList",list);
-        return "class/resultClass";
+        List<Class> classes = classService.queryByGrade(grade);
+        List<ClassTeacher> list = new ArrayList<>();
+        for (Class c:classes) {
+            TeacherClass teacherClass = teacherClassService.queryAdvisorByClassId(c.getId());
+            if(teacherClass==null)
+                list.add(new ClassTeacher(c.getId(),c.getGrade(),c.getClassNumber(),"#","暂无班主任","男"));
+            else {
+                Teacher teacher = teacherService.queryById(teacherClass.getTeacherId());
+                list.add(new ClassTeacher(c.getId(), c.getGrade(), c.getClassNumber(), teacher.getId(), teacher.getName(), teacher.getGender()));
+            }
+        }
+        model.addAttribute("list",list);
+        model.addAttribute("teacherName",null);
+        model.addAttribute("grade",grade);
+        return "class/resultTeacherClass";
     }
 
     @RequestMapping("/queryByTeacherName")
@@ -69,6 +96,8 @@ public class ClassController {
             }
         }
         model.addAttribute("list",list);
+        model.addAttribute("teacherName", name);
+        model.addAttribute("grade",null);
         return "class/resultTeacherClass";
     }
 
@@ -82,6 +111,8 @@ public class ClassController {
             list.add(new ClassTeacher(_class.getId(),_class.getGrade(),_class.getClassNumber(),teacher.getId(),teacher.getName(),teacher.getGender()));
         }
         model.addAttribute("list",list);
+        model.addAttribute("teacherName", name);
+        model.addAttribute("grade",null);
         return "class/resultTeacherClass";
     }
 
@@ -117,6 +148,7 @@ public class ClassController {
             model.addAttribute("ErrorCode",4);
             return "class/classError";
         }
+
         classService.addClass(_class);
         Class c = classService.queryByGradeAndNumber(_class.getGrade(),_class.getClassNumber());
         teacherClassService.addTeacherClass(new TeacherClass(advisorId,c.getId(),1));
@@ -124,7 +156,9 @@ public class ClassController {
     }
 
     @RequestMapping("/toAddClass")
-    public String toAddClass() {
+    public String toAddClass(Model model) {
+        List<Teacher> advisors = teacherService.queryAllNotAdvisor();
+        model.addAttribute("advisors", advisors);
         return "class/addClass";
     }
 
@@ -145,13 +179,37 @@ public class ClassController {
     }
 
     @RequestMapping("/updateClass")
-    public String updateClass(Model model, Class _class) {
+    public String updateClass(Model model, Class _class,String advisorId) {
+        if( !(classService.queryById(_class.getId()).getGrade().equals(_class.getGrade()) && classService.queryById(_class.getId()).getClassNumber()==_class.getClassNumber())
+                && classService.queryByGradeAndNumber(_class.getGrade(),_class.getClassNumber())!=null) {
+            model.addAttribute("grade",_class.getGrade());
+            model.addAttribute("classNumber", _class.getClassNumber());
+            model.addAttribute("ErrorCode",1);
+            return "class/classError";
+        }
+        if(teacherService.queryById(advisorId)==null) {
+            model.addAttribute("grade",_class.getGrade());
+            model.addAttribute("classNumber", _class.getClassNumber());
+            model.addAttribute("advisorId",advisorId);
+            model.addAttribute("ErrorCode",3);
+            return "class/classError";
+        }
+        if(teacherClassService.queryByAdvisor(advisorId)!=null) {
+            model.addAttribute("grade",_class.getGrade());
+            model.addAttribute("classNumber", _class.getClassNumber());
+            model.addAttribute("advisorId",advisorId);
+            model.addAttribute("ErrorCode",4);
+            return "class/classError";
+        }
         classService.updateClass(_class);
+        teacherClassService.addTeacherClass(new TeacherClass(advisorId,_class.getId(),1));
         return "redirect:/class/allClass";
     }
 
     @RequestMapping("/toUpdateClass")
     public String toUpdateClass(Model model, Long id) {
+        List<Teacher> advisors = teacherService.queryAllNotAdvisor();
+        model.addAttribute("advisors", advisors);
         model.addAttribute("class",classService.queryById(id));
         return "class/updateClass";
     }

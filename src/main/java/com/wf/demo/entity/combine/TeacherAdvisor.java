@@ -5,12 +5,32 @@ public class TeacherAdvisor {
     private String name;
     private String gender;
     private int advisor;
+    private String grade;
+    private int classNumber;
 
-    public TeacherAdvisor(String id, String name, String gender, int advisor) {
+    public TeacherAdvisor(String id, String name, String gender, int advisor, String grade, int classNumber) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.advisor = advisor;
+        this.grade = grade;
+        this.classNumber = classNumber;
+    }
+
+    public int getClassNumber() {
+        return classNumber;
+    }
+
+    public void setClassNumber(int classNumber) {
+        this.classNumber = classNumber;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getId() {

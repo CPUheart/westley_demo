@@ -38,12 +38,4 @@ public class TeacherClass {
         this.advisor = advisor;
     }
 
-    @Override
-    public String toString() {
-        return "TeacherClass{" +
-                "teacherId='" + teacherId + '\'' +
-                ", classId=" + classId +
-                ", advisor=" + advisor +
-                '}';
-    }
 }

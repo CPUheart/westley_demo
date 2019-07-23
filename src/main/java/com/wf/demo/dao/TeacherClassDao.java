@@ -7,6 +7,8 @@ import java.util.List;
 public interface TeacherClassDao {
     List<TeacherClass> queryAllTeacherClass();
 
+    List<TeacherClass> queryAllNotAdvisor();
+
     List<TeacherClass> queryByTeacher(String teacherId);
 
     TeacherClass queryByAdvisor(String teacherId);

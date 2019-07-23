@@ -45,7 +45,27 @@
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${path}/school/student/toAddStudent">新增</a>
         </div>
-        <div class="col-md-4 column"><form>
+        <div class="col-md-4 column">
+            <form>
+            <%--<select name="grade" id="grade" onchange="queryByGrade()">
+                <option value="0">==请选择==</option>
+                <c:forEach var="Grade" items="${requestScope.get('grade')}" varStatus="var">
+                    <option value="${Grade}" <c:if test="${Grade==grade}">selected</c:if>> ${Grade}</option>
+                </c:forEach>
+            </select>
+            <select name="classNumber" id = "classNumber">
+                <c:forEach var="Class" items="${requestScope.get('class')}" varStatus="var">
+                    <option value="${Class.classNumber}" <c:if test="${Class.classNumber==classNumber}">selected</c:if>> ${Class.classNumber}</option>
+                </c:forEach>
+            </select>
+            <script type="text/javascript">
+                function queryByGrade() {
+                    var form = document.forms[0];
+                    form.action = "<%=basePath %>student/queryByGrade";
+                    form.method = "post";
+                    form.submit();
+                }
+            </script>--%>
             <input type="text" name="grade">
             <input type="text" name="classNumber">
             <input type="button" value="按班级搜索" onclick="queryByClass()">

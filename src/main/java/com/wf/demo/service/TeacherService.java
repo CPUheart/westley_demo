@@ -16,4 +16,8 @@ public interface TeacherService {
     List<Teacher> queryAllTeacher();
 
     List<Teacher> queryByName(String name);
+
+    List<Teacher> queryAllNotAdvisor();
+
+    Teacher queryByLeadClass(Long classId);
 }

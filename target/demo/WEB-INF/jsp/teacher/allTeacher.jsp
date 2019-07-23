@@ -43,6 +43,8 @@
                     <th>姓名</th>
                     <th>性别</th>
                     <th>是否担任班主任</th>
+                    <th>年级</th>
+                    <th>班级</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,8 +53,17 @@
                         <td>${TeacherAdvisor.id}</td>
                         <td>${TeacherAdvisor.name}</td>
                         <td>${TeacherAdvisor.gender}</td>
-                        <c:if test="${TeacherAdvisor.advisor==1}"><td>是</td></c:if>
-                        <c:if test="${TeacherAdvisor.advisor==0}"><td>否</td></c:if>
+
+                        <c:if test="${TeacherAdvisor.advisor==1}">
+                            <td>是</td>
+                            <td>${TeacherAdvisor.grade}</td>
+                            <td>${TeacherAdvisor.classNumber}</td>
+                        </c:if>
+                        <c:if test="${TeacherAdvisor.advisor==0}">
+                            <td>否</td>
+                            <td></td>
+                            <td></td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

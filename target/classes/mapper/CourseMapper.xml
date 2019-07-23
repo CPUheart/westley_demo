@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wf.demo.dao.CourseDao">
+    <resultMap id="courseResultMap" type="Course">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="teacherId" column="teacher"/>
+    </resultMap>
+    <select id="queryAllCourse" resultMap="courseResultMap">
+        select * from course;
+    </select>
+</mapper>

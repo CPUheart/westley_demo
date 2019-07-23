@@ -38,12 +38,4 @@ public class Class {
         this.classNumber = classNumber;
     }
 
-    @Override
-    public String toString() {
-        return "Class{" +
-                "id=" + id +
-                ", grade='" + grade + '\'' +
-                ", class_number='" + classNumber + '\'' +
-                '}';
-    }
 }

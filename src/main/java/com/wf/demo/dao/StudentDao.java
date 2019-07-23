@@ -16,4 +16,5 @@ public interface StudentDao {
     int deleteStudent(String id);
 
     List<Student> queryByClassId(Long classId);
+
 }

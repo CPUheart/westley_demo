@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: WF
@@ -5,6 +6,7 @@
   Time: 20:01
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
@@ -41,7 +43,15 @@
             <input type="hidden" name="id" value="${requestScope.get('class').id}"><br><br><br>
         年级<input type="number" name="grade" oninput="if(value.length>4) value=value.slice(0,4)"  value="${requestScope.get('class').grade}"><br><br><br>
         班级<input type="number" name="classNumber" value="${requestScope.get('class').classNumber}"><br><br><br>
+        班主任<select name="advisorId" id="advisorId">
+            <option value="0">==请选择==</option>
+            <c:forEach var="Teacher" items="${requestScope.get('advisors')}" varStatus="var">
+                <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
+            </c:forEach>
+        </select>
+        <br><br><br>
         <input type="button" value="修改" onclick="updateClass()">
+        <input type="button" value="返回" onclick="history.go(-1);">
     </form>
     <script type="text/javascript">
         function updateClass() {

@@ -16,7 +16,17 @@
 <body>
 <div>
     <h2>
-        ${grade}级${classNumber}班不存在
+        <c:if test="${ErrorCode==1}">${grade}级${classNumber}班不存在</c:if>
+        <c:if test="${ErrorCode==2}">
+            学号${requestScope.get("id")}已存在<br>
+            该学生信息为：<br>
+            学号：${requestScope.get("id")}<br>
+            姓名：${requestScope.get("name")}<br>
+            性别：${requestScope.get("gender")}<br>
+            年级：${requestScope.get("grade")}<br>
+            班级：${requestScope.get("classNumber")}<br>
+        </c:if>
+
     </h2>
 </div>
 <div>

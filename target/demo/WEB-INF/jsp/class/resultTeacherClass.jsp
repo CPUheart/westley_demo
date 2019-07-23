@@ -47,7 +47,7 @@
             <a class="btn btn-primary" href="${path}/school/class/toAddClass">新增</a>
         </div>
         <div class="col-md-4 column"><form>
-            <input type="text" name="name">
+            <input type="text" name="name" value="${requestScope.get('teacherName')}">
             <input type="button" value="按班主任姓名搜索" onclick="queryByAdvisor()">
             <input type="button" value="按教师姓名搜索" onclick="queryByTeacherName()">
         </form>
@@ -70,7 +70,7 @@
         </div>
         <div class="col-md-4 column">
             <form>
-                <input type="text" name="grade">
+                <input type="text" name="grade" value="${requestScope.get('grade')}">
                 <input type="button" value="按年级搜索" onclick="queryByGrade()">
             </form>
             <script type="text/javascript">
@@ -105,8 +105,8 @@
                         <td>${ClassTeacher.name}</td>
                         <td>${ClassTeacher.gender}</td>
                         <td>
-                            <a href="${path}/school/class/deleteClassById/${ClassTeacher.classId}">删除
-                            </a>
+                            <a href="${path}/school/class/toUpdateClass?id=${ClassTeacher.classId}">更改</a> |
+                            <a href="${path}/school/class/deleteClassById/${ClassTeacher.classId}">删除</a>
                         </td>
                     </tr>
                 </c:forEach>

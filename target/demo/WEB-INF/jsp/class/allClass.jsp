@@ -90,8 +90,9 @@
                 <tr>
                     <th>年级</th>
                     <th>班级</th>
-                    <%--<th>班级详情</th>--%>
-                    <th>班主任</th>
+                    <th>班主任编号</th>
+                    <th>班主任姓名</th>
+                    <th>班主任性别</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -100,11 +101,13 @@
                     <tr>
                         <td>${ClassTeacher.grade}</td>
                         <td>${ClassTeacher.classNumber}</td>
+                        <td>${ClassTeacher.advisorId}</td>
                         <td>${ClassTeacher.name}</td>
+                        <td>${ClassTeacher.gender}</td>
                         <td>
-                            <%--<a href="${path}/school/class/toUpdateClass?id=${Class.id}">更改</a> |--%>
-                            <a href="${path}/school/class/deleteClassById/${ClassTeacher.classId}">删除
-                            </a>
+                            <a href="${path}/school/class/classInfo?id=${ClassTeacher.classId}">班级详情</a> |
+                            <a href="${path}/school/class/toUpdateClass?id=${ClassTeacher.classId}">更改</a> |
+                            <a href="${path}/school/class/deleteClassById/${ClassTeacher.classId}">删除</a>
                         </td>
                     </tr>
                 </c:forEach>

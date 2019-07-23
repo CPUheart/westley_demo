@@ -12,6 +12,10 @@
         select * from teacher_class
     </select>
 
+    <select id="queryAllNotAdvisor" resultMap="teacherClassResultMap">
+        select * from teacher_class where advisor=0
+    </select>
+
     <select id="queryAdvisorByClassId" resultType="TeacherClass">
         select * from teacher_class where class_id = #{classId} and advisor=1
     </select>

@@ -3,7 +3,13 @@ package com.wf.demo.entity;
 public class Course {
     private Long id;
     private String name;
-    private String teacher;
+    private String teacherId;
+
+    public Course(Long id, String name, String teacherId) {
+        this.id = id;
+        this.name = name;
+        this.teacherId = teacherId;
+    }
 
     public Long getId() {
         return id;
@@ -22,20 +28,11 @@ public class Course {
     }
 
     public String getTeacher() {
-        return teacher;
+        return teacherId;
     }
 
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
-    }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", teacher='" + teacher + '\'' +
-                '}';
+    public void setTeacher(String teacherId) {
+        this.teacherId = teacherId;
     }
 
 }

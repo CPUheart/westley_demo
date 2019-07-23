@@ -46,8 +46,8 @@
             <a class="btn btn-primary" href="${path}/school/student/toAddStudent">新增</a>
         </div>
         <div class="col-md-4 column"><form>
-            <input type="text" name="grade">
-            <input type="text" name="classNumber">
+            <input type="text" name="grade" value="${requestScope.get('grade')}">
+            <input type="text" name="classNumber" value="${requestScope.get('classNumber')}">
             <input type="button" value="按班级搜索" onclick="queryByClass()">
         </form>
             <script type="text/javascript">
@@ -68,6 +68,8 @@
                     <th>学号</th>
                     <th>姓名</th>
                     <th>性别</th>
+                    <th>年级</th>
+                    <th>班级</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -77,6 +79,8 @@
                         <td>${Student.id}</td>
                         <td>${Student.name}</td>
                         <td>${Student.gender}</td>
+                        <td>${requestScope.get('grade')}</td>
+                        <td>${requestScope.get('classNumber')}</td>
                         <td>
                             <a href="${path}/school/student/toUpdateStudent?id=${Student.id}">更改</a> |
                             <a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>
