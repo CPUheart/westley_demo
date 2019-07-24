@@ -1,15 +1,41 @@
 package com.wf.demo.entity;
 
 public class Score {
-    private Long courseId;
+    private String courseId;
     private String studentId;
     private int score;
+    private int rankInClass;
+    private int rankInGrade;
 
-    public Long getCourseId() {
+    public Score(String courseId, String studentId, int score) {
+        this.courseId = courseId;
+        this.studentId = studentId;
+        this.score = score;
+        this.rankInClass=0;
+        this.rankInGrade=0;
+    }
+
+    public int getRankInGrade() {
+        return rankInGrade;
+    }
+
+    public void setRankInGrade(int rankInGrade) {
+        this.rankInGrade = rankInGrade;
+    }
+
+    public int getRankInClass() {
+        return rankInClass;
+    }
+
+    public void setRankInClass(int rankInClass) {
+        this.rankInClass = rankInClass;
+    }
+
+    public String getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Long courseId) {
+    public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
 

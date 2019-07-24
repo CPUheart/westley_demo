@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.enterprise.context.RequestScoped;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,26 +37,31 @@ public class StudentController {
             Class _class = classService.queryById(student.getClassId());
             list.add(new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(),_class.getGrade(),_class.getClassNumber()));
         }
-//        Set<String> grades = new HashSet<>();
-//        List<Class> classes = classService.queryAllClass();
-//        for(Class c:classes) {
-//            grades.add(c.getGrade());
-//        }
-//        List<Class> classes = classService.queryAllClass();
         model.addAttribute("list",list);
-//        model.addAttribute("class",classes);
         return "student/allStudent";
     }
 
- /*   @RequestMapping("/queryByGrade")
-    public String queryByGrade(Model model, String grade) {
-        List<Class> list = classService.queryByGrade(grade);
-        model.addAttribute("class",list);
-        return "student/allStudent";
-    }*/
+//    @RequestMapping("/queryByGrade")
+//    public String queryByGrade(Model model, String grade) {
+//        List<Class> list = classService.queryByGrade(grade);
+//        model.addAttribute("class",list);
+//        return "student/allStudent";
+//    }
+
+    @RequestMapping("/queryByName")
+    public String queryByName(Model model, @RequestParam("name")String name) {
+        List<Student> students = studentService.queryByName(name);
+        List<StudentClass> list = new ArrayList<>();
+        for(Student student:students) {
+            Class _class = classService.queryById(student.getClassId());
+            list.add(new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(),_class.getGrade(),_class.getClassNumber()));
+        }
+        model.addAttribute("list",list);
+        return "student/resultStudent";
+    }
 
     @RequestMapping("/queryByClass")
-    public String queryByClass(Model model, @RequestParam("grade") String grade,@RequestParam("classNumber") int classNumber) {
+    public String queryByClass(Model model, @RequestParam("grade") String grade, @RequestParam("classNumber") int classNumber, RedirectAttributes ra) {
         Class _class = classService.queryByGradeAndNumber(grade,classNumber);
         if(_class==null) {
             model.addAttribute("grade",grade);
@@ -62,11 +69,12 @@ public class StudentController {
             model.addAttribute("ErrorCode",1);
             return "student/studentError";
         }
-        List<Student> list = studentService.queryByClassId(_class.getId());
-        model.addAttribute("list",list);
-        model.addAttribute("grade",grade);
-        model.addAttribute("classNumber",classNumber);
-        return "student/resultStudent";
+        ra.addAttribute("id",_class.getId());
+//        List<Student> list = studentService.queryByClassId(_class.getId());
+//        model.addAttribute("list",list);
+//        model.addAttribute("grade",grade);
+//        model.addAttribute("classNumber",classNumber);
+        return "redirect:../class/classInfo";
     }
 
     @RequestMapping("/addStudent")
@@ -130,8 +138,12 @@ public class StudentController {
     public String toUpdateStudent(Model model, String id) {
         Student student = studentService.queryById(id);
         Class _class = classService.queryById(student.getClassId());
-
-        model.addAttribute("studentClass",new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(),_class.getGrade(),_class.getClassNumber()));
+        model.addAttribute("id",student.getId());
+        model.addAttribute("name",student.getName());
+        model.addAttribute("gender",student.getGender());
+        model.addAttribute("classId",student.getClass());
+        model.addAttribute("grade",_class.getGrade());
+        model.addAttribute("classNumber",_class.getClassNumber());
         return "student/updateStudent";
     }
 }

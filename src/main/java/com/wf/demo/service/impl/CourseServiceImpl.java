@@ -20,8 +20,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> queryAllOpenCourse() {
+        return courseDao.queryAllOpenCourse();
+    }
+
+    @Override
     public Course queryById(Long id) {
         return courseDao.queryById(id);
+    }
+
+    @Override
+    public Course queryByName(String name) {
+        return courseDao.queryByName(name);
     }
 
     @Override
@@ -38,4 +48,6 @@ public class CourseServiceImpl implements CourseService {
     public int deleteByCourse(Long id) {
         return courseDao.deleteByCourse(id);
     }
+
+
 }

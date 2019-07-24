@@ -8,6 +8,8 @@ public interface StudentService {
 
     List<Student> queryAllStudent();
 
+    List<Student> queryByName(String name);
+
     int addStudent(Student student);
 
     int deleteStudent(String id);
@@ -18,4 +20,5 @@ public interface StudentService {
 
     List<Student> queryByClassId(Long id);
 
+    int countByClassId(Long id);
 }

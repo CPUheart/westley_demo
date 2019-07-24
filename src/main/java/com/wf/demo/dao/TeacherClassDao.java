@@ -21,7 +21,10 @@ public interface TeacherClassDao {
 
     int deleteTeacherClass(String teacherId, Long classId);
 
-    int deleteByClassId(Long classId);
+    int deleteAdvisorByClassId(Long classId);
+
+    int deleteTeacherByClassId(Long classId);
+
 
     TeacherClass queryAdvisorByClassId(Long classId);
 }

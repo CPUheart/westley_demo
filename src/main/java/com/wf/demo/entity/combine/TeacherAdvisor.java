@@ -5,16 +5,18 @@ public class TeacherAdvisor {
     private String name;
     private String gender;
     private int advisor;
+    private Long classId;
     private String grade;
     private int classNumber;
 
-    public TeacherAdvisor(String id, String name, String gender, int advisor, String grade, int classNumber) {
+    public TeacherAdvisor(String id, String name, String gender, int advisor, Long classId, String grade, int classNumber) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.advisor = advisor;
         this.grade = grade;
         this.classNumber = classNumber;
+        this.classId = classId;
     }
 
     public int getClassNumber() {
@@ -63,5 +65,13 @@ public class TeacherAdvisor {
 
     public void setAdvisor(int advisor) {
         this.advisor = advisor;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
     }
 }

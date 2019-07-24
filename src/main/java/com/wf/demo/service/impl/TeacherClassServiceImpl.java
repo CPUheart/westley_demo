@@ -49,8 +49,13 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     }
 
     @Override
-    public int deleteByClassId(Long classId) {
-        return teacherClassDao.deleteByClassId(classId);
+    public int deleteAdvisorByClassId(Long classId) {
+        return teacherClassDao.deleteAdvisorByClassId(classId);
+    }
+
+    @Override
+    public int deleteTeacherByClassId(Long classId) {
+        return teacherClassDao.deleteTeacherByClassId(classId);
     }
 
     @Override

@@ -44,13 +44,15 @@
     <div class="row">
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${path}/school/class/toAddClass">新增</a>
+            <a class="btn btn-primary" href="${path}/school">返回</a>
         </div>
 
-        <div class="col-md-4 column"><form>
-            <input type="text" name="name">
-            <input type="button" value="按班主任姓名搜索" onclick="queryByAdvisor()">
-            <input type="button" value="按教师姓名搜索" onclick="queryByTeacherName()">
-        </form>
+        <div class="col-md-4 column">
+            <form>
+                <input type="text" name="name"><br>
+                <input type="button" value="按班主任姓名搜索" onclick="queryByAdvisor()">
+                <input type="button" value="按教师姓名搜索" onclick="queryByTeacherName()">
+            </form>
             <script type="text/javascript">
                 function queryByAdvisor() {
                     var form = document.forms[0];
@@ -93,6 +95,7 @@
                     <th>班主任编号</th>
                     <th>班主任姓名</th>
                     <th>班主任性别</th>
+                    <th>班级人数</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -104,10 +107,22 @@
                         <td>${ClassTeacher.advisorId}</td>
                         <td>${ClassTeacher.name}</td>
                         <td>${ClassTeacher.gender}</td>
+                        <td>${ClassTeacher.studentAmount}</td>
                         <td>
                             <a href="${path}/school/class/classInfo?id=${ClassTeacher.classId}">班级详情</a> |
                             <a href="${path}/school/class/toUpdateClass?id=${ClassTeacher.classId}">更改</a> |
-                            <a href="${path}/school/class/deleteClassById/${ClassTeacher.classId}">删除</a>
+                            <%--<a href="${path}/school/class/deleteClassById/${ClassTeacher.classId}"">删除</a>--%>
+                            <a href="javascript:deleteClass('${ClassTeacher.classId}')">删除</a>
+                            <script type="text/javascript">
+                                function deleteClass() {
+                                var Id= arguments[0];
+                                msg='是否删除？';
+                                if(window.confirm(msg)) {
+                                    URL="${path}/school/class/deleteClassById/"+Id;
+                                    window.location=URL;
+                                }
+                            }
+                            </script>
                         </td>
                     </tr>
                 </c:forEach>

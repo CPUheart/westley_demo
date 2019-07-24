@@ -44,12 +44,14 @@
     <div class="row">
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${path}/school/student/toAddStudent">新增</a>
+            <a class="btn btn-primary" href="javascript:history.back(-1)">返回</a>
         </div>
-        <div class="col-md-4 column"><form>
-            <input type="text" name="grade" value="${requestScope.get('grade')}">
-            <input type="text" name="classNumber" value="${requestScope.get('classNumber')}">
-            <input type="button" value="按班级搜索" onclick="queryByClass()">
-        </form>
+        <div class="col-md-4 column">
+          <%--  <form>
+                <input type="text" name="grade" value="${requestScope.get('grade')}">
+                <input type="text" name="classNumber" value="${requestScope.get('classNumber')}">
+                <input type="button" value="按班级搜索" onclick="queryByClass()">
+            </form>
             <script type="text/javascript">
                 function queryByClass() {
                     var form = document.forms[0];
@@ -57,7 +59,13 @@
                     form.method = "post";
                     form.submit();
                 }
-            </script>
+            </script>--%>
+        </div>
+        <div class="col-md-4 column">
+            <form action="<%=basePath%>student/queryByName" method="post">
+                <input type="text" name="name" placeholder="按姓名搜索">
+                <input type="submit">
+            </form>
         </div>
     </div>
     <div class="row clearfix">
@@ -74,16 +82,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="Student" items="${requestScope.get('list')}" varStatus="status">
+                <c:forEach var="StudentClass" items="${requestScope.get('list')}" varStatus="status">
                     <tr>
-                        <td>${Student.id}</td>
-                        <td>${Student.name}</td>
-                        <td>${Student.gender}</td>
-                        <td>${requestScope.get('grade')}</td>
-                        <td>${requestScope.get('classNumber')}</td>
+                        <td>${StudentClass.id}</td>
+                        <td>${StudentClass.name}</td>
+                        <td>${StudentClass.gender}</td>
+                        <td>${StudentClass.grade}</td>
+                        <td>${StudentClass.classNumber}</td>
                         <td>
-                            <a href="${path}/school/student/toUpdateStudent?id=${Student.id}">更改</a> |
-                            <a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>
+                            <a href="${path}/school/class/classInfo?id=${StudentClass.classId}">班级详情</a> |
+                            <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
+                            <%--<a href="${path}/school/student/deleteStudent/${StudentClass.id}">删除</a>--%>
+                            <a href="javascript:deleteStudent('${StudentClass.id}')">删除</a>
+                            <script type="text/javascript">
+                                function deleteStudent() {
+                                    var Id= arguments[0];
+                                    msg='是否删除？';
+                                    if(window.confirm(msg)) {
+                                        URL="${path}/school/student/deleteStudent/"+Id;
+                                        window.location=URL;
+                                    }
+                                }
+                            </script>
                         </td>
                     </tr>
                 </c:forEach>

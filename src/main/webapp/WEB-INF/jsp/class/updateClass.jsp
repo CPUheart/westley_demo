@@ -44,7 +44,7 @@
         年级<input type="number" name="grade" oninput="if(value.length>4) value=value.slice(0,4)"  value="${requestScope.get('class').grade}"><br><br><br>
         班级<input type="number" name="classNumber" value="${requestScope.get('class').classNumber}"><br><br><br>
         班主任<select name="advisorId" id="advisorId">
-            <option value="0">==请选择==</option>
+            <option value="${requestScope.get('advisorId')}">${requestScope.get('advisorName')}</option>
             <c:forEach var="Teacher" items="${requestScope.get('advisors')}" varStatus="var">
                 <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
             </c:forEach>

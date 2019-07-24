@@ -3,12 +3,26 @@ package com.wf.demo.entity;
 public class Course {
     private Long id;
     private String name;
-    private String teacherId;
+    private int open;
 
-    public Course(Long id, String name, String teacherId) {
+    public Course(Long id, String name, int open) {
         this.id = id;
         this.name = name;
-        this.teacherId = teacherId;
+        this.open = open;
+    }
+
+    public Course(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.open=1;
+    }
+
+    public int getOpen() {
+        return open;
+    }
+
+    public void setOpen(int open) {
+        this.open = open;
     }
 
     public Long getId() {
@@ -26,13 +40,4 @@ public class Course {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getTeacher() {
-        return teacherId;
-    }
-
-    public void setTeacher(String teacherId) {
-        this.teacherId = teacherId;
-    }
-
 }

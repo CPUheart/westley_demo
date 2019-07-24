@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +39,12 @@ public class ClassController {
         List<Class> classes = classService.queryAllClass();
         for (Class c:classes) {
             TeacherClass teacherClass = teacherClassService.queryAdvisorByClassId(c.getId());
+            int studentAmount = studentService.countByClassId(c.getId());
             if(teacherClass==null)
-                list.add(new ClassTeacher(c.getId(),c.getGrade(),c.getClassNumber(),"#","暂无班主任","男"));
+                list.add(new ClassTeacher(c.getId(),c.getGrade(),c.getClassNumber(),"#","暂无班主任","男",studentAmount));
             else {
                 Teacher teacher = teacherService.queryById(teacherClass.getTeacherId());
-                list.add(new ClassTeacher(c.getId(), c.getGrade(), c.getClassNumber(), teacher.getId(), teacher.getName(), teacher.getGender()));
+                list.add(new ClassTeacher(c.getId(), c.getGrade(), c.getClassNumber(), teacher.getId(), teacher.getName(), teacher.getGender(),studentAmount));
             }
         }
         model.addAttribute("list",list);
@@ -57,10 +57,20 @@ public class ClassController {
         List<Student> students = studentService.queryByClassId(id);
         Teacher teacher = teacherService.queryByLeadClass(id);
         int studentAmount = students.size();
+        int maleAmount = 0;
+        int femaleAmount =0;
+        for(Student student:students) {
+            if(student.getGender().equals("男"))
+                maleAmount++;
+            else
+                femaleAmount++;
+        }
         model.addAttribute("studentAmount", studentAmount);
         model.addAttribute("students", students);
         model.addAttribute("teacher", teacher);
         model.addAttribute("class",_class);
+        model.addAttribute("maleAmount",maleAmount);
+        model.addAttribute("femaleAmount",femaleAmount);
         return "class/classInfo";
     }
 
@@ -70,11 +80,12 @@ public class ClassController {
         List<ClassTeacher> list = new ArrayList<>();
         for (Class c:classes) {
             TeacherClass teacherClass = teacherClassService.queryAdvisorByClassId(c.getId());
+            int studentAmount = studentService.countByClassId(c.getId());
             if(teacherClass==null)
-                list.add(new ClassTeacher(c.getId(),c.getGrade(),c.getClassNumber(),"#","暂无班主任","男"));
+                list.add(new ClassTeacher(c.getId(),c.getGrade(),c.getClassNumber(),"#","暂无班主任","男",studentAmount));
             else {
                 Teacher teacher = teacherService.queryById(teacherClass.getTeacherId());
-                list.add(new ClassTeacher(c.getId(), c.getGrade(), c.getClassNumber(), teacher.getId(), teacher.getName(), teacher.getGender()));
+                list.add(new ClassTeacher(c.getId(), c.getGrade(), c.getClassNumber(), teacher.getId(), teacher.getName(), teacher.getGender(),studentAmount));
             }
         }
         model.addAttribute("list",list);
@@ -92,7 +103,8 @@ public class ClassController {
             for(TeacherClass teacherClass:teacherClasses) {
                 Class _class = classService.queryById(teacherClass.getClassId());
                 Teacher teacher1 = teacherService.queryById(teacherClassService.queryAdvisorByClassId(_class.getId()).getTeacherId());
-                list.add(new ClassTeacher(_class.getId(), _class.getGrade(), _class.getClassNumber(), teacher1.getId(), teacher1.getName(), teacher1.getGender()));
+                int studentAmount=studentService.countByClassId(_class.getId());
+                list.add(new ClassTeacher(_class.getId(), _class.getGrade(), _class.getClassNumber(), teacher1.getId(), teacher1.getName(), teacher1.getGender(),studentAmount));
             }
         }
         model.addAttribute("list",list);
@@ -108,8 +120,10 @@ public class ClassController {
         for (Teacher teacher:teachers) {
             TeacherClass teacherClass= teacherClassService.queryByAdvisor(teacher.getId());
             Class _class = classService.queryById(teacherClass.getClassId());
-            list.add(new ClassTeacher(_class.getId(),_class.getGrade(),_class.getClassNumber(),teacher.getId(),teacher.getName(),teacher.getGender()));
+            int studentAmount = studentService.countByClassId(_class.getId());
+            list.add(new ClassTeacher(_class.getId(),_class.getGrade(),_class.getClassNumber(),teacher.getId(),teacher.getName(),teacher.getGender(),studentAmount));
         }
+
         model.addAttribute("list",list);
         model.addAttribute("teacherName", name);
         model.addAttribute("grade",null);
@@ -173,20 +187,13 @@ public class ClassController {
         }
         else {
             classService.deleteClassById(id);
-            teacherClassService.deleteByClassId(id);
+            teacherClassService.deleteTeacherByClassId(id);
             return "redirect:/class/allClass";
         }
     }
 
     @RequestMapping("/updateClass")
     public String updateClass(Model model, Class _class,String advisorId) {
-        if( !(classService.queryById(_class.getId()).getGrade().equals(_class.getGrade()) && classService.queryById(_class.getId()).getClassNumber()==_class.getClassNumber())
-                && classService.queryByGradeAndNumber(_class.getGrade(),_class.getClassNumber())!=null) {
-            model.addAttribute("grade",_class.getGrade());
-            model.addAttribute("classNumber", _class.getClassNumber());
-            model.addAttribute("ErrorCode",1);
-            return "class/classError";
-        }
         if(teacherService.queryById(advisorId)==null) {
             model.addAttribute("grade",_class.getGrade());
             model.addAttribute("classNumber", _class.getClassNumber());
@@ -194,7 +201,23 @@ public class ClassController {
             model.addAttribute("ErrorCode",3);
             return "class/classError";
         }
-        if(teacherClassService.queryByAdvisor(advisorId)!=null) {
+
+        int tag;    //标明修改班级信息时班主任是否保持一致，tag=1表示班主任未修改
+        String originAdvisorId = teacherClassService.queryAdvisorByClassId(_class.getId()).getTeacherId();
+        if(originAdvisorId.equals(advisorId)) {
+            tag = 1;
+        }
+        else {
+            tag = 0;
+        }
+        if( !(classService.queryById(_class.getId()).getGrade().equals(_class.getGrade()) && classService.queryById(_class.getId()).getClassNumber()==_class.getClassNumber())
+                && classService.queryByGradeAndNumber(_class.getGrade(),_class.getClassNumber())!=null) {
+            model.addAttribute("grade",_class.getGrade());
+            model.addAttribute("classNumber", _class.getClassNumber());
+            model.addAttribute("ErrorCode",1);
+            return "class/classError";
+        }
+        if(tag==0 && teacherClassService.queryByAdvisor(advisorId)!=null) {
             model.addAttribute("grade",_class.getGrade());
             model.addAttribute("classNumber", _class.getClassNumber());
             model.addAttribute("advisorId",advisorId);
@@ -202,7 +225,11 @@ public class ClassController {
             return "class/classError";
         }
         classService.updateClass(_class);
-        teacherClassService.addTeacherClass(new TeacherClass(advisorId,_class.getId(),1));
+        if(tag==0) {
+            teacherClassService.deleteAdvisorByClassId(_class.getId());
+            teacherClassService.addTeacherClass(new TeacherClass(advisorId, _class.getId(), 1));
+
+        }
         return "redirect:/class/allClass";
     }
 
@@ -211,6 +238,8 @@ public class ClassController {
         List<Teacher> advisors = teacherService.queryAllNotAdvisor();
         model.addAttribute("advisors", advisors);
         model.addAttribute("class",classService.queryById(id));
+        model.addAttribute("advisorName",teacherService.queryByLeadClass(id).getName());
+        model.addAttribute("advisorId",teacherService.queryByLeadClass(id).getId());
         return "class/updateClass";
     }
 

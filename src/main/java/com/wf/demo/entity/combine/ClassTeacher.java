@@ -7,17 +7,27 @@ public class ClassTeacher {
     private String advisorId;
     private String name;
     private String gender;
+    private int studentAmount;
+
+    public int getStudentAmount() {
+        return studentAmount;
+    }
+
+    public void setStudentAmount(int studentAmount) {
+        this.studentAmount = studentAmount;
+    }
 
     public ClassTeacher() {
     }
 
-    public ClassTeacher(Long classId, String grade, int classNumber, String advisorId, String name, String gender) {
+    public ClassTeacher(Long classId, String grade, int classNumber, String advisorId, String name, String gender,int studentAmount) {
         this.classId = classId;
         this.grade = grade;
         this.classNumber = classNumber;
         this.advisorId = advisorId;
         this.name = name;
         this.gender = gender;
+        this.studentAmount=studentAmount;
     }
 
     public Long getClassId() {

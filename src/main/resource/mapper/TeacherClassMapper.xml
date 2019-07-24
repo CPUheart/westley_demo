@@ -44,7 +44,11 @@
         delete from teacher_class where teacher_id=#{teacherId} and class_id=#{classId}
     </delete>
 
-    <delete id="deleteByClassId">
+    <delete id="deleteAdvisorByClassId">
+        delete from teacher_class where class_id=#{classId} and advisor=1
+    </delete>
+
+    <delete id="deleteTeacherByClassId">
         delete from teacher_class where class_id=#{classId}
     </delete>
 

@@ -9,11 +9,11 @@
         <result property="classNumber" column="class_number"/>
     </resultMap>
     <select id="queryAllClass" resultMap="classResultMap">
-        select id,grade,class_number from class
+        select id,grade,class_number from class order by grade ,class_number
     </select>
 
     <select id="queryByGrade" resultMap="classResultMap">
-        select id,grade,class_number from class where grade=#{grade}
+        select id,grade,class_number from class where grade=#{grade} order by class_number
     </select>
 
     <select id="queryByGradeAndNumber" resultType="Class">
@@ -24,7 +24,7 @@
         insert into class(grade,class_number) values (#{grade}, #{classNumber})
     </insert>
 
-    <delete id="deleteClassById" >
+    <delete id="deleteClassById">
         delete from class where id=#{classId}
     </delete>
 
@@ -35,8 +35,4 @@
     <select id="queryById" parameterType="long" resultType="Class">
         select * from class where id = #{id}
     </select>
-
-
-
-
 </mapper>

@@ -1,11 +1,11 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: WF
-  Date: 2019/7/19
-  Time: 20:01
+  Date: 2019/7/24
+  Time: 11:54
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -16,7 +16,7 @@
 %>
 <html>
 <head>
-    <title>更新班级信息</title>
+    <title>添加教师</title>
 </head>
 <body>
 <div class="container">
@@ -34,33 +34,29 @@
         <div class="col-md-12 column">
             <div class="page-header">
                 <h1>
-                    <small>修改班级信息</small>
+                    <small>新增教师</small>
                 </h1>
             </div>
         </div>
     </div>
     <form action="" name="userForm">
-            <input type="hidden" name="id" value="${requestScope.get('class').id}"><br><br><br>
-        年级<input type="number" name="grade" oninput="if(value.length>4) value=value.slice(0,4)"  value="${requestScope.get('class').grade}"><br><br><br>
-        班级<input type="number" name="classNumber" value="${requestScope.get('class').classNumber}"><br><br><br>
-        班主任<select name="advisorId" id="advisorId">
-            <option value="${requestScope.get('advisorId')}">${requestScope.get('advisorName')}</option>
-            <c:forEach var="Teacher" items="${requestScope.get('advisors')}" varStatus="var">
-                <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
-            </c:forEach>
-        </select>
-        <br><br><br>
-        <input type="button" value="修改" onclick="updateClass()">
+        编号<input  onkeyup="value=value.replace(/[\W]/g,'')" type="text" name="id" oninput="if(value.length>9)value=value.slice(0,9)" ><br><br><br>
+        姓名<input type="text" name="name" maxlength="15"><br><br><br>
+        <%--性别<input type="text" name="gender"><br><br><br>--%>
+        性别<input type="radio" name="gender" value="男" checked="checked">男 <input type="radio" name="gender" value="女">女<br><br><br>
+        <input type="button" value="添加" onclick="addTeacher()">
         <input type="button" value="返回" onclick="history.go(-1);">
     </form>
     <script type="text/javascript">
-        function updateClass() {
+        function addTeacher() {
             var form = document.forms[0];
-            form.action = "<%=basePath %>class/updateClass";
+            form.action = "<%=basePath %>teacher/addTeacher";
             form.method = "post";
             form.submit();
         }
     </script>
 </div>
+
 </body>
 </html>
+

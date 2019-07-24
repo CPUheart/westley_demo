@@ -7,6 +7,8 @@ import java.util.List;
 public interface StudentDao {
     List<Student> queryAllStudent();
 
+    List<Student> queryByName(String name);
+
     Student queryById(String id);
 
     int addStudent(Student student);
@@ -17,4 +19,5 @@ public interface StudentDao {
 
     List<Student> queryByClassId(Long classId);
 
+    int countByClassId(Long classId);
 }

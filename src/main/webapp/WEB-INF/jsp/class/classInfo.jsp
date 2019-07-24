@@ -43,14 +43,23 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4 column">
+        <div class="col-md-3 column">
             ${requestScope.get('class').grade}级${requestScope.get('class').classNumber}班
         </div>
-        <div class="col-md-4 column">
+        <div class="col-md-3 column">
             班主任：${requestScope.get('teacher').name}
         </div>
-        <div class="col-md-4 column">
-            班级人数：${requestScope.get('studentAmount')}
+        <div class="col-md-3 column">
+            班级人数：${requestScope.get('studentAmount')} |
+            男生：${requestScope.get('maleAmount')} |
+            女生：${requestScope.get('femaleAmount')}
+        </div>
+        <div class="col-md-3 column">
+            <a href="${path}/school/class/deleteClassById/${requestScope.get('class').id}">
+                <span style="color: #000000;">
+                <input type="button" value="删除班级"></span>
+            </a>
+            <input type="button" value="返回" onclick="history.go(-1);">
         </div>
     </div>
     <div class="row">
@@ -72,7 +81,18 @@
                         <td>${Student.gender}</td>
                         <td>
                             <a href="${path}/school/student/toUpdateStudent?id=${Student.id}">更改</a> |
-                            <a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>
+                            <%--<a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>--%>
+                            <a href="javascript:deleteStudent('${Student.id}')">删除</a>
+                            <script type="text/javascript">
+                                function deleteStudent() {
+                                    var Id= arguments[0];
+                                    msg='是否删除？';
+                                    if(window.confirm(msg)) {
+                                        URL="${path}/school/student/deleteStudent/"+Id;
+                                        window.location=URL;
+                                    }
+                                }
+                            </script>
                         </td>
                     </tr>
                 </c:forEach>

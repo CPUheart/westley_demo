@@ -44,40 +44,28 @@
     <div class="row">
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${path}/school/student/toAddStudent">新增</a>
+            <a class="btn btn-primary" href="${path}/school">返回</a>
         </div>
         <div class="col-md-4 column">
-            <form>
-            <%--<select name="grade" id="grade" onchange="queryByGrade()">
-                <option value="0">==请选择==</option>
-                <c:forEach var="Grade" items="${requestScope.get('grade')}" varStatus="var">
-                    <option value="${Grade}" <c:if test="${Grade==grade}">selected</c:if>> ${Grade}</option>
-                </c:forEach>
-            </select>
-            <select name="classNumber" id = "classNumber">
-                <c:forEach var="Class" items="${requestScope.get('class')}" varStatus="var">
-                    <option value="${Class.classNumber}" <c:if test="${Class.classNumber==classNumber}">selected</c:if>> ${Class.classNumber}</option>
-                </c:forEach>
-            </select>
+            <%--<form>
+                <input type="text" name="name">
+                <input type="button" value="按姓名搜索" onclick="queryByName()">
+            </form>
             <script type="text/javascript">
-                function queryByGrade() {
+                function queryByName() {
                     var form = document.forms[0];
-                    form.action = "<%=basePath %>student/queryByGrade";
+                    form.action = "<%=basePath %>student/queryByName";
                     form.method = "post";
                     form.submit();
                 }
             </script>--%>
-            <input type="text" name="grade">
-            <input type="text" name="classNumber">
-            <input type="button" value="按班级搜索" onclick="queryByClass()">
-        </form>
-            <script type="text/javascript">
-                function queryByClass() {
-                    var form = document.forms[0];
-                    form.action = "<%=basePath %>student/queryByClass";
-                    form.method = "post";
-                    form.submit();
-                }
-            </script>
+        </div>
+
+        <div class="col-md-4 column">
+            <form action="<%=basePath%>student/queryByName" method="post">
+                <input type="text" name="name" placeholder="按姓名搜索">
+                <input type="submit">
+            </form>
         </div>
     </div>
     <div class="row clearfix">
@@ -102,8 +90,20 @@
                         <td>${StudentClass.grade}</td>
                         <td>${StudentClass.classNumber}</td>
                         <td>
+                            <a href="${path}/school/class/classInfo?id=${StudentClass.classId}">班级详情</a> |
                             <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
-                            <a href="${path}/school/student/deleteStudent/${StudentClass.id}">删除</a>
+                            <%--<a href="${path}/school/student/deleteStudent/${StudentClass.id}">删除</a>--%>
+                            <a href="javascript:deleteStudent('${StudentClass.id}')">删除</a>
+                            <script type="text/javascript">
+                                function deleteStudent() {
+                                    var Id= arguments[0];
+                                    msg='是否删除？';
+                                    if(window.confirm(msg)) {
+                                        URL="${path}/school/student/deleteStudent/"+Id;
+                                        window.location=URL;
+                                    }
+                                }
+                            </script>
                         </td>
                     </tr>
                 </c:forEach>

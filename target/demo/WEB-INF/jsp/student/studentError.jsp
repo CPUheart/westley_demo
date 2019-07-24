@@ -31,7 +31,8 @@
 </div>
 <div>
     <h2>
-        <a href="${path}/school/student/allStudent">返回</a>
+        <%--<a href="${path}/school/student/allStudent">返回</a>--%>
+            <input type="button" value="返回" onclick="history.go(-1);">
     </h2>
 </div>
 </body>
