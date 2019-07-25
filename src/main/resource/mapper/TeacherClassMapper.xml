@@ -5,7 +5,8 @@
 <mapper namespace="com.wf.demo.dao.TeacherClassDao">
     <resultMap id="teacherClassResultMap" type="TeacherClass">
         <id property="teacherId" column="teacher_id"/>
-        <result property="classId" column="class_id"/>
+        <id property="classId" column="class_id"/>
+        <result property="teacherId" column="teacher_id"/>
         <result property="advisor" column="advisor"/>
     </resultMap>
     <select id="queryAllTeacherClass" resultMap="teacherClassResultMap">
@@ -16,7 +17,7 @@
         select * from teacher_class where advisor=0
     </select>
 
-    <select id="queryAdvisorByClassId" resultType="TeacherClass">
+            <select id="queryAdvisorByClassId" resultType="TeacherClass">
         select * from teacher_class where class_id = #{classId} and advisor=1
     </select>
 

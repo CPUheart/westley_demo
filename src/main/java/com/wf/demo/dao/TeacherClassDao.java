@@ -1,6 +1,7 @@
 package com.wf.demo.dao;
 
 import com.wf.demo.entity.TeacherClass;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,5 +31,5 @@ public interface TeacherClassDao {
 
     TeacherClass queryAdvisorByClassId(Long classId);
 
-    TeacherClass queryByTeacherAndClass(Long classId, String teacherId);
+    TeacherClass queryByTeacherAndClass(@Param("classId") Long classId, @Param("teacherId") String teacherId);
 }

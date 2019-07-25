@@ -70,6 +70,7 @@ public class ClassController {
         List<Teacher> teachers = teacherService.queryByClass(id);
         List<TeacherCourse> teacherCourse = new ArrayList<>();
         for(Teacher teacher:teachers) {
+            //To Be Fix
             teacherCourse.add(new TeacherCourse(teacher.getId(),teacher.getName(),teacher.getGender(),courseService.queryById(teacherClassService.queryByTeacherAndClass(id,teacher.getId()).getCourseId()).getName()));
 
         }

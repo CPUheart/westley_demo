@@ -20,6 +20,7 @@ public class TeacherClass {
     public TeacherClass(String teacherId, Long classId, Long courseId, int advisor) {
         this.teacherId = teacherId;
         this.classId = classId;
+        this.courseId=courseId;
         this.advisor = advisor;
     }
 
