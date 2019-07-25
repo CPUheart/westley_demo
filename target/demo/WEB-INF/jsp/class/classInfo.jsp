@@ -35,9 +35,17 @@
     <div class="row">
         <div class="col-md-12 column">
             <div class="page-header">
-                <h1>
-                    <small>班级详情</small>
-                </h1>
+                <h2>
+                    <div class="row">
+                        <div class="col-md-3 colunm">
+                            班级详情
+                        </div>
+                        <div class="col-md-3 colunm" style="float:right">
+                            <small><input type="button" value="返回" onclick="history.go(-1);"/></small>
+                        </div>
+                    </div>
+
+                </h2>
             </div>
         </div>
     </div>
@@ -47,7 +55,7 @@
             ${requestScope.get('class').grade}级${requestScope.get('class').classNumber}班
         </div>
         <div class="col-md-3 column">
-            班主任：${requestScope.get('teacher').name}
+            班主任：${requestScope.get('advisor').name}
         </div>
         <div class="col-md-3 column">
             班级人数：${requestScope.get('studentAmount')} |
@@ -55,15 +63,65 @@
             女生：${requestScope.get('femaleAmount')}
         </div>
         <div class="col-md-3 column">
-            <a href="${path}/school/class/deleteClassById/${requestScope.get('class').id}">
+            <%--<a href="${path}/school/class/deleteClassById/${requestScope.get('class').id}">
                 <span style="color: #000000;">
                 <input type="button" value="删除班级"></span>
-            </a>
-            <input type="button" value="返回" onclick="history.go(-1);">
+            </a>--%>
+            <%--<input type="button" value="添加学生" onclick="addStudent()"/>--%>
+
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 column">
+            <div class="page-header">
+                <h3>
+                    教师列表
+                </h3>
+            </div>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>课程</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="TeacherCourse" items="${requestScope.get('teacherCourse')}" varStatus="status">
+                    <tr>
+                        <td>${TeacherCourse.id}</td>
+                        <td>${TeacherCourse.name}</td>
+                        <td>${TeacherCourse.gender}</td>
+                        <td>${TeacherCourse.courseName}</td>
+                        <%--<td>
+                            <a href="${path}/school/student/toUpdateStudent?id=${Student.id}">更改</a> |
+                                &lt;%&ndash;<a href="${path}/school/student/deleteStudent/${Student.id}">删除</a>&ndash;%&gt;
+                            <a href="javascript:deleteStudent('${Student.id}')">删除</a>
+                            <script type="text/javascript">
+                                function deleteStudent() {
+                                    var Id= arguments[0];
+                                    msg='是否删除？';
+                                    if(window.confirm(msg)) {
+                                        URL="${path}/school/student/deleteStudent/"+Id;
+                                        window.location=URL;
+                                    }
+                                }
+                            </script>
+                        </td>--%>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 column">
+            <div class="page-header">
+                <h3>
+                    学生列表
+                </h3>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                 <tr>
@@ -94,7 +152,6 @@
                                 }
                             </script>
                         </td>
-
                     </tr>
                 </c:forEach>
                 </tbody>

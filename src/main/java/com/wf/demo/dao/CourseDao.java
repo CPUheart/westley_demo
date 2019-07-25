@@ -7,8 +7,6 @@ import java.util.List;
 public interface CourseDao {
     List<Course> queryAllCourse();
 
-    List<Course> queryAllOpenCourse();
-
     Course queryById(Long id);
 
     Course queryByName(String name);

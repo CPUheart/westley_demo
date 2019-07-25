@@ -1,14 +1,14 @@
 package com.wf.demo.entity;
 
-public class Class {
+public class ClassInfo {
     private Long id;
     private String grade;
     private int classNumber;
 
-    public Class() {
+    public ClassInfo() {
     }
 
-    public Class(Long id, String grade, int classNumber) {
+    public ClassInfo(Long id, String grade, int classNumber) {
         this.id = id;
         this.grade = grade;
         this.classNumber = classNumber;

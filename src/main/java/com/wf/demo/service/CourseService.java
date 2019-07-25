@@ -1,13 +1,12 @@
 package com.wf.demo.service;
 
 import com.wf.demo.entity.Course;
+import com.wf.demo.entity.CourseList;
 
 import java.util.List;
 
 public interface CourseService {
     List<Course> queryAllCourse();
-
-    List<Course> queryAllOpenCourse();
 
     Course queryById(Long id);
 
@@ -18,4 +17,5 @@ public interface CourseService {
     int updateCourse(Course course);
 
     int deleteByCourse(Long id);
+
 }

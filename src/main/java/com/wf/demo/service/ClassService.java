@@ -1,22 +1,26 @@
 package com.wf.demo.service;
 
-import com.wf.demo.entity.Class;
+import com.wf.demo.entity.ClassInfo;
 
 import java.util.List;
 
 public interface ClassService {
-    int addClass(Class _class);
+    int addClass(ClassInfo classInfo);
 
     int deleteClassById(Long id);
 
-    int updateClass(Class _class);
+    int updateClass(ClassInfo classInfo);
 
-    Class queryById(Long id);
+    ClassInfo queryById(Long id);
 
-    List<Class> queryAllClass();
+    List<ClassInfo> queryAllClass();
 
-    List<Class> queryByGrade(String grade);
+    List<ClassInfo> queryByGrade(String grade);
 
-    Class queryByGradeAndNumber(String grade, int classNumber);
+    ClassInfo queryByGradeAndNumber(String grade, int classNumber);
+
+    List<String> queryAllGrade();
+
+    Integer[] queryAllClassNumber();
 
 }

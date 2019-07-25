@@ -46,8 +46,18 @@
             <input type="radio" name="gender" value="女" <c:if test="${gender=='女'}">checked="checked"</c:if>>女
         <br><br><br>
         <%--性别<input type="text" name="gender" value="${requestScope.get('studentClass').gender}"><br><br><br>--%>
-        年级<input type="number" name="grade" oninput="if(value.length>4)value=value.slice(0,4)"  value="${requestScope.get('grade')}"><br><br><br>
-        班级<input type="number" name="classNumber" value="${requestScope.get('classNumber')}"><br><br><br>
+        <%--年级<input type="number" name="grade" oninput="if(value.length>4)value=value.slice(0,4)"  value="${requestScope.get('grade')}"><br><br><br>
+        班级<input type="number" name="classNumber" value="${requestScope.get('classNumber')}"><br><br><br>--%>
+        年级<select name="grade" id="grade">
+        <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
+            <option value="${Grade}" <c:if test="${Grade==grade}">selected</c:if>> ${Grade}</option>
+        </c:forEach>
+    </select><br><br><br>
+        班级<select name="classNumber" id="classNumber">
+        <c:forEach var="number" items="${requestScope.get('classNumberList')}">
+            <option value="${number}" <c:if test="${number==classNumber}">selected</c:if>>${number}</option>
+        </c:forEach>
+    </select><br><br><br>
         <input type="button" value="修改" onclick="updateStudent()">
         <input type="button" value="返回" onclick="history.go(-1);">
     </form>

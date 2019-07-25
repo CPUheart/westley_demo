@@ -61,6 +61,16 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public List<Teacher> queryByClass(Long classId) {
+        List<TeacherClass> teacherClasses = teacherClassDao.queryByClassId(classId);
+        List<Teacher> teachers = new ArrayList<>();
+        for(TeacherClass teacherClass:teacherClasses) {
+            teachers.add(teacherDao.queryById(teacherClass.getTeacherId()));
+        }
+        return teachers;
+    }
+
+    @Override
     public Teacher queryByLeadClass(Long classId) {
         return teacherDao.queryById(teacherClassDao.queryAdvisorByClassId(classId).getTeacherId());
     }

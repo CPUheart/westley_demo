@@ -6,9 +6,23 @@
     <resultMap id="courseResultMap" type="Course">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="teacherId" column="teacher"/>
+        <result property="teacherId" column="teacher_id"/>
     </resultMap>
     <select id="queryAllCourse" resultMap="courseResultMap">
         select * from course;
     </select>
+
+    <select id="queryByTeacherId" resultType="Course">
+        select * from course where teacher_id=#{teacherId}
+    </select>
+
+    <update id="updateCourse" parameterType="Course">
+        update Course set name=#{name}, open=#{open} where id=#{id}
+    </update>
+
+    <update id="closeCourse">
+        update course
+        set open=0
+        where id=#{id}
+    </update>
 </mapper>

@@ -39,13 +39,16 @@
 </div>
 <br><br>
 <h3>
-    <a href="${path }/class/allClass">班级信息管理</a>
+    <a href="${path}/class/allClass">班级信息管理</a>
 </h3>
 <h3>
-    <a href="${path }/student/allStudent">学生信息管理</a>
+    <a href="${path}/student/allStudent">学生信息管理</a>
 </h3>
 <h3>
-    <a href="${path }/teacher/allTeacher">老师信息管理</a>
+    <a href="${path}/teacher/allTeacher">老师信息管理</a>
+</h3>
+<h3>
+    <a href="${path}/course/allCourse">课程信息管理</a>
 </h3>
 </body>
 </html>

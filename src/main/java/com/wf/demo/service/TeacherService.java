@@ -19,5 +19,7 @@ public interface TeacherService {
 
     List<Teacher> queryAllNotAdvisor();
 
+    List<Teacher> queryByClass(Long classId);
+
     Teacher queryByLeadClass(Long classId);
 }

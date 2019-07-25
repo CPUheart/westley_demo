@@ -20,11 +20,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> queryAllOpenCourse() {
-        return courseDao.queryAllOpenCourse();
-    }
-
-    @Override
     public Course queryById(Long id) {
         return courseDao.queryById(id);
     }
@@ -48,6 +43,4 @@ public class CourseServiceImpl implements CourseService {
     public int deleteByCourse(Long id) {
         return courseDao.deleteByCourse(id);
     }
-
-
 }

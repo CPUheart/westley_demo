@@ -43,13 +43,19 @@
     <form>
         年级<input type="number" name="grade" oninput="if(value.length>4)value=value.slice(0,4)" ><br><br><br>
         班级<input type="number" name="classNumber"><br><br><br>
+        <c:forEach var="Course" items="${requestScope.get('courses')}">
+            ${Course.name}<select name="course${Course.id}">
+            <c:forEach var="Teacher" items="${requestScope.get('teachers')}" varStatus="var">
+                <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
+            </c:forEach>
+        </select>
+        </c:forEach>
         班主任<select name="advisorId" id="advisorId">
             <option value="0">==请选择==</option>
             <c:forEach var="Teacher" items="${requestScope.get('advisors')}" varStatus="var">
                 <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
             </c:forEach>
-        </select>
-        <br><br><br>
+        </select><br><br><br>
         <input type="button" value="添加" onclick="addClass()">
         <input type="button" value="返回" onclick="history.go(-1);">
     </form>

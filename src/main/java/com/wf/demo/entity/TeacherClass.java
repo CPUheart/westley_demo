@@ -3,12 +3,21 @@ package com.wf.demo.entity;
 public class TeacherClass {
     private String teacherId;
     private Long classId;
+    private Long courseId;
     private int advisor;
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
 
     public TeacherClass() {
     }
 
-    public TeacherClass(String teacherId, Long classId, int advisor) {
+    public TeacherClass(String teacherId, Long classId, Long courseId, int advisor) {
         this.teacherId = teacherId;
         this.classId = classId;
         this.advisor = advisor;

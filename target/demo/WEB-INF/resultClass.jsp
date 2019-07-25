@@ -79,10 +79,10 @@
                         <td>${Class.grade}</td>
                         <td>${Class.classNumber}</td>
                             <%--<td>
-                                <a href="${path}/class/information?id=${Class.id}">详情</a>
+                                <a href="${path}/class/information?id=${ClassInfo.id}">详情</a>
                             </td>--%>
                         <td>
-                                <%--<a href="${path}/school/class/toUpdateClass?id=${Class.id}">更改</a> |--%>
+                                <%--<a href="${path}/school/class/toUpdateClass?id=${ClassInfo.id}">更改</a> |--%>
                             <a href="${path}/school/class/deleteClassById/${Class.id}">删除
                             </a>
                         </td>

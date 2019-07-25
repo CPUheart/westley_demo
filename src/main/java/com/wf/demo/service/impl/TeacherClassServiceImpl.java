@@ -29,6 +29,11 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     }
 
     @Override
+    public TeacherClass queryByTeacherAndClass(Long classId, String teacherId) {
+        return teacherClassDao.queryByTeacherAndClass(classId,teacherId);
+    }
+
+    @Override
     public List<TeacherClass> queryByClassId(Long classId) {
         return teacherClassDao.queryByClassId(classId);
     }
@@ -61,5 +66,10 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     @Override
     public TeacherClass queryAdvisorByClassId(Long classId) {
         return teacherClassDao.queryAdvisorByClassId(classId);
+    }
+
+    @Override
+    public int setAdvisorByClassIdAndTeacherId(Long classId, String teacherId) {
+        return teacherClassDao.setAdvisorByClassIdAndTeacherId(classId,teacherId);
     }
 }

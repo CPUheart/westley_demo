@@ -1,25 +1,28 @@
 package com.wf.demo.dao;
 
-import com.wf.demo.entity.Class;
+import com.wf.demo.entity.ClassInfo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 
 public interface ClassDao {
-    int addClass(Class _class);
+    int addClass(ClassInfo classInfo);
 
     int deleteClassById(Long id);
 
-    int updateClass(Class _class);
+    int updateClass(ClassInfo classInfo);
 
-    Class queryById(Long id);
+    ClassInfo queryById(Long id);
 
-    List<Class> queryAllClass();
+    List<ClassInfo> queryAllClass();
 
-    List<Class> queryByGrade(String grade);
+    List<ClassInfo> queryByGrade(String grade);
 
-    Class queryByGradeAndNumber(@Param("grade")String grade, @Param("classNumber") int classNumber);
+    ClassInfo queryByGradeAndNumber(@Param("grade")String grade, @Param("classNumber") int classNumber);
+
+    List<String> queryAllGrade();
+
+    Integer[] queryAllClassNumber();
 
 }

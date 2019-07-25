@@ -18,6 +18,8 @@
         <c:if test="${ErrorCode==2}">${grade}级${classNumber}班删除失败，原因是该班级还有学生</c:if>
         <c:if test="${ErrorCode==3}">${grade}级${classNumber}班添加失败，原因是班主任未选择</c:if>
         <c:if test="${ErrorCode==4}">${grade}级${classNumber}班添加失败，原因是班主任${advisorId}已担任其他班班主任职务</c:if>
+        <c:if test="${ErrorCode==5}">${grade}级${classNumber}班更改失败，原因是该班级已经存在</c:if>
+        <c:if test="${ErrorCode==6}">${grade}级${classNumber}班添加失败，原因是班主任不在该班级任教</c:if>
 
 
     </h2>

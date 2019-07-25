@@ -1,6 +1,6 @@
 package com.wf.demo.controller;
 
-import com.wf.demo.entity.Class;
+import com.wf.demo.entity.ClassInfo;
 import com.wf.demo.entity.Teacher;
 import com.wf.demo.entity.TeacherClass;
 import com.wf.demo.entity.combine.TeacherAdvisor;
@@ -38,8 +38,8 @@ public class TeacherController {
             TeacherClass teacherClass = teacherClassService.queryByAdvisor(teacher.getId());
             if(teacherClass!=null) {
                 advisor=1;
-                Class _class = classService.queryById(teacherClass.getClassId());
-                list.add(new TeacherAdvisor(teacher.getId(),teacher.getName(),teacher.getGender(),advisor,_class.getId(), _class.getGrade(),_class.getClassNumber()));
+                ClassInfo classInfo = classService.queryById(teacherClass.getClassId());
+                list.add(new TeacherAdvisor(teacher.getId(),teacher.getName(),teacher.getGender(),advisor, classInfo.getId(), classInfo.getGrade(), classInfo.getClassNumber()));
             }
             else {
                 advisor=0;

@@ -11,6 +11,8 @@ public interface TeacherClassService {
 
     TeacherClass queryByAdvisor(String teacherId);
 
+    TeacherClass queryByTeacherAndClass(Long classId, String teacherId);
+
     List<TeacherClass> queryByClassId(Long classId);
 
     int addTeacherClass(TeacherClass teacherClass);
@@ -24,5 +26,7 @@ public interface TeacherClassService {
     int deleteTeacherByClassId(Long classId);
 
     TeacherClass queryAdvisorByClassId(Long classId);
+
+    int setAdvisorByClassIdAndTeacherId(Long classId, String teacherId);
 
 }
