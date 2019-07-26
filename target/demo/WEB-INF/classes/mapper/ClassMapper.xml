@@ -46,7 +46,7 @@
         update class c set c.grade = #{grade}, c.class_number = #{classNumber} where c.id=#{id}
     </update>
 
-    <select id="queryById" parameterType="long" resultType="ClassInfo">
+    <select id="queryById" parameterType="int" resultType="ClassInfo">
         select * from class where id = #{id}
     </select>
 </mapper>

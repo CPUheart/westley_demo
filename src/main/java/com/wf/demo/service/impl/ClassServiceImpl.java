@@ -19,7 +19,7 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public int deleteClassById(Long id) {
+    public int deleteClassById(int id) {
         return classDao.deleteClassById(id);
     }
 
@@ -29,7 +29,7 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public ClassInfo queryById(Long id) {
+    public ClassInfo queryById(int id) {
         return classDao.queryById(id);
     }
 

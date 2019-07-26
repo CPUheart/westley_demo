@@ -3,6 +3,7 @@ package com.wf.demo.service.impl;
 import com.wf.demo.dao.TeacherClassDao;
 import com.wf.demo.entity.TeacherClass;
 import com.wf.demo.service.TeacherClassService;
+import org.omg.CORBA.TCKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,12 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     }
 
     @Override
-    public TeacherClass queryByTeacherAndClass(Long classId, String teacherId) {
+    public TeacherClass queryByTeacherAndClass(int classId, String teacherId) {
         return teacherClassDao.queryByTeacherAndClass(classId,teacherId);
     }
 
     @Override
-    public List<TeacherClass> queryByClassId(Long classId) {
+    public List<TeacherClass> queryByClassId(int classId) {
         return teacherClassDao.queryByClassId(classId);
     }
 
@@ -49,27 +50,47 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     }
 
     @Override
-    public int deleteTeacherClass(String teacherId, Long classId) {
+    public int deleteTeacherClass(String teacherId, int classId) {
         return teacherClassDao.deleteTeacherClass(teacherId,classId);
     }
 
     @Override
-    public int deleteAdvisorByClassId(Long classId) {
+    public int deleteAdvisorByClassId(int classId) {
         return teacherClassDao.deleteAdvisorByClassId(classId);
     }
 
     @Override
-    public int deleteTeacherByClassId(Long classId) {
+    public int deleteTeacherByClassId(int classId) {
         return teacherClassDao.deleteTeacherByClassId(classId);
     }
 
     @Override
-    public TeacherClass queryAdvisorByClassId(Long classId) {
+    public TeacherClass queryAdvisorByClassId(int classId) {
         return teacherClassDao.queryAdvisorByClassId(classId);
     }
 
     @Override
-    public int setAdvisorByClassIdAndTeacherId(Long classId, String teacherId) {
-        return teacherClassDao.setAdvisorByClassIdAndTeacherId(classId,teacherId);
+    public int setAdvisorByClassAndTeacher(int classId, String teacherId) {
+        TeacherClass teacherClass = teacherClassDao.queryByTeacherAndClass(classId,teacherId);
+        teacherClass.setAdvisor(1);
+        return teacherClassDao.updateTeacherClass(teacherClass);
     }
+
+    @Override
+    public int updateAdvisorByClassAndTeacher(int classId, String teacherId) {
+        List<TeacherClass> teacherClasses = teacherClassDao.queryByClassId(classId);
+        for(TeacherClass teacherClass:teacherClasses) {
+            teacherClass.setAdvisor(0);
+            teacherClassDao.updateTeacherClass(teacherClass);
+        }
+        this.setAdvisorByClassAndTeacher(classId,teacherId);
+        return 1;
+    }
+
+    @Override
+    public TeacherClass queryByClassAndCourse(int classId, int courseId) {
+        return teacherClassDao.queryByClassAndCourse(classId,courseId);
+    }
+
+
 }

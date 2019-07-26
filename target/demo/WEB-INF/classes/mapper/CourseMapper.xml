@@ -12,6 +12,10 @@
         select * from course;
     </select>
 
+    <select id="queryById" resultType="Course">
+        select * from course where id=#{id}
+    </select>
+
     <select id="queryByTeacherId" resultType="Course">
         select * from course where teacher_id=#{teacherId}
     </select>

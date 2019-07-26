@@ -6,7 +6,7 @@
     <resultMap id="teacherClassResultMap" type="TeacherClass">
         <id property="teacherId" column="teacher_id"/>
         <id property="classId" column="class_id"/>
-        <result property="teacherId" column="teacher_id"/>
+        <result property="courseId" column="course_id"/>
         <result property="advisor" column="advisor"/>
     </resultMap>
     <select id="queryAllTeacherClass" resultMap="teacherClassResultMap">
@@ -37,12 +37,16 @@
         select * from teacher_class where class_id=#{classId} and teacher_id=#{teacherId}
     </select>
 
+    <select id="queryByClassAndCourse" resultType="TeacherClass">
+        select * from teacher_class where class_id=#{classId} and course_id=#{courseId}
+    </select>
+
     <insert id="addTeacherClass" parameterType="TeacherClass">
-        insert into teacher_class(teacher_id,class_id,advisor) values(#{teacherId},#{classId},#{advisor})
+        insert into teacher_class(teacher_id,class_id,course_id,advisor) values(#{teacherId},#{classId},#{courseId},#{advisor})
     </insert>
 
     <update id="updateTeacherClass" parameterType="TeacherClass">
-        update teacher_class set advisor=#{advisor} where teacher_id=#{teacherId} and class_id=#{classId}
+        update teacher_class set advisor=#{advisor},teacher_id=#{teacherId} where course_id=#{courseId} and class_id=#{classId}
     </update>
 
     <delete id="deleteTeacherClass">

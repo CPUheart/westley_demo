@@ -1,41 +1,30 @@
 package com.wf.demo.entity;
 
 public class Score {
-    private String courseId;
+    private int courseId;
     private String studentId;
-    private int score;
-    private int rankInClass;
-    private int rankInGrade;
+    private int scoreNumber;
 
-    public Score(String courseId, String studentId, int score) {
+    public Score() {
+    }
+
+    public Score(int courseId, String studentId) {
         this.courseId = courseId;
         this.studentId = studentId;
-        this.score = score;
-        this.rankInClass=0;
-        this.rankInGrade=0;
+        this.scoreNumber=-1;  //代表暂无考试成绩
     }
 
-    public int getRankInGrade() {
-        return rankInGrade;
+    public Score(int courseId, String studentId, int scoreNumber) {
+        this.courseId = courseId;
+        this.studentId = studentId;
+        this.scoreNumber = scoreNumber;
     }
 
-    public void setRankInGrade(int rankInGrade) {
-        this.rankInGrade = rankInGrade;
-    }
-
-    public int getRankInClass() {
-        return rankInClass;
-    }
-
-    public void setRankInClass(int rankInClass) {
-        this.rankInClass = rankInClass;
-    }
-
-    public String getCourseId() {
+    public int getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 
@@ -47,12 +36,12 @@ public class Score {
         this.studentId = studentId;
     }
 
-    public int getScore() {
-        return score;
+    public int getScoreNumber() {
+        return scoreNumber;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScoreNumber(int scoreNumber) {
+        this.scoreNumber = scoreNumber;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.wf.demo.entity.combine;
 
 public class ClassTeacher {
-    private Long classId;
+    private int classId;
     private String grade;
     private int classNumber;
     private String advisorId;
@@ -20,7 +20,7 @@ public class ClassTeacher {
     public ClassTeacher() {
     }
 
-    public ClassTeacher(Long classId, String grade, int classNumber, String advisorId, String name, String gender,int studentAmount) {
+    public ClassTeacher(int classId, String grade, int classNumber, String advisorId, String name, String gender,int studentAmount) {
         this.classId = classId;
         this.grade = grade;
         this.classNumber = classNumber;
@@ -30,11 +30,11 @@ public class ClassTeacher {
         this.studentAmount=studentAmount;
     }
 
-    public Long getClassId() {
+    public int getClassId() {
         return classId;
     }
 
-    public void setClassId(Long classId) {
+    public void setClassId(int classId) {
         this.classId = classId;
     }
 

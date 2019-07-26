@@ -1,9 +1,6 @@
 package com.wf.demo.controller;
 
-import com.wf.demo.entity.ClassInfo;
-import com.wf.demo.entity.Student;
-import com.wf.demo.entity.Teacher;
-import com.wf.demo.entity.TeacherClass;
+import com.wf.demo.entity.*;
 import com.wf.demo.entity.combine.ClassTeacher;
 import com.wf.demo.entity.combine.TeacherCourse;
 import com.wf.demo.service.*;
@@ -54,7 +51,7 @@ public class ClassController {
     }
 
     @RequestMapping("/classInfo")
-    public String classInfo(Model model, Long id) {
+    public String classInfo(Model model, int id) {
         ClassInfo classInfo = classService.queryById(id);
         List<Student> students = studentService.queryByClassId(id);
         Teacher advisor = teacherService.queryByLeadClass(id);
@@ -70,8 +67,9 @@ public class ClassController {
         List<Teacher> teachers = teacherService.queryByClass(id);
         List<TeacherCourse> teacherCourse = new ArrayList<>();
         for(Teacher teacher:teachers) {
-            //To Be Fix
-            teacherCourse.add(new TeacherCourse(teacher.getId(),teacher.getName(),teacher.getGender(),courseService.queryById(teacherClassService.queryByTeacherAndClass(id,teacher.getId()).getCourseId()).getName()));
+
+            teacherCourse.add(new TeacherCourse(teacher.getId(),teacher.getName(),teacher.getGender(),
+                    courseService.queryById(teacherClassService.queryByTeacherAndClass(id,teacher.getId()).getCourseId()).getName()));
 
         }
 
@@ -130,9 +128,11 @@ public class ClassController {
         List<ClassTeacher> list = new ArrayList<>();
         for (Teacher teacher:teachers) {
             TeacherClass teacherClass= teacherClassService.queryByAdvisor(teacher.getId());
-            ClassInfo classInfo = classService.queryById(teacherClass.getClassId());
-            int studentAmount = studentService.countByClassId(classInfo.getId());
-            list.add(new ClassTeacher(classInfo.getId(), classInfo.getGrade(), classInfo.getClassNumber(),teacher.getId(),teacher.getName(),teacher.getGender(),studentAmount));
+            if(teacherClass!=null) {
+                ClassInfo classInfo = classService.queryById(teacherClass.getClassId());
+                int studentAmount = studentService.countByClassId(classInfo.getId());
+                list.add(new ClassTeacher(classInfo.getId(), classInfo.getGrade(), classInfo.getClassNumber(), teacher.getId(), teacher.getName(), teacher.getGender(), studentAmount));
+            }
         }
 
         model.addAttribute("list",list);
@@ -141,28 +141,25 @@ public class ClassController {
         return "class/resultTeacherClass";
     }
 
-//    @RequestMapping("/queryByTeacher")
-//    public String queryByTeacherId(Model model,String teacherName) {
-//        List<Teacher> teachers = teacherService.queryByName(teacherName);
-//        for (Teacher teacher:teachers) {
-//            teacherClassService.queryByTeacherId(teacher.getId());
-//        }
-//
-//    }
-
-
     @RequestMapping("/addClass")
-    public String addClass(Model model, ClassInfo classInfo, String course1, String course2, String course3,String advisorId) {
+    public String addClass(Model model, ClassInfo classInfo, String course1, String course2, String course3, String advisorCourse) {
+        String advisorId=null;
+        switch (advisorCourse){
+            case "1":advisorId=course1; break;
+            case "2":advisorId=course2; break;
+            case "3":advisorId=course3; break;
+
+        }
         if(classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber())!=null) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",1);
             return "class/classError";
         }
-        if(teacherService.queryById(advisorId)==null) {
+        if(advisorCourse.equals("0")) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
-            model.addAttribute("advisorId",advisorId);
+//            model.addAttribute("advisorId",advisorId);
             model.addAttribute("ErrorCode",3);
             return "class/classError";
         }
@@ -173,19 +170,25 @@ public class ClassController {
             model.addAttribute("ErrorCode",4);
             return "class/classError";
         }
-
-        classService.addClass(classInfo);
-        ClassInfo c = classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber());
+        if(course1.equals(course2) || course1.equals(course3) || course2.equals(course3)) {
+            model.addAttribute("grade", classInfo.getGrade());
+            model.addAttribute("classNumber", classInfo.getClassNumber());
+            model.addAttribute("ErrorCode",7);
+            return "class/classError";
+        }
         if(!course1.equals(advisorId) && !course2.equals(advisorId) && !course3.equals(advisorId)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",6);
             return "class/classError";
         }
-        teacherClassService.addTeacherClass(new TeacherClass(course1, c.getId(), 1L, 0));
-        teacherClassService.addTeacherClass(new TeacherClass(course2, c.getId(), 2L, 0));
-        teacherClassService.addTeacherClass(new TeacherClass(course3, c.getId(), 3L, 0));
+        classService.addClass(classInfo);
+        ClassInfo c = classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber());
 
+        teacherClassService.addTeacherClass(new TeacherClass(course1, c.getId(), 1, 0));
+        teacherClassService.addTeacherClass(new TeacherClass(course2, c.getId(), 2, 0));
+        teacherClassService.addTeacherClass(new TeacherClass(course3, c.getId(), 3, 0));
+        teacherClassService.setAdvisorByClassAndTeacher(c.getId(),advisorId);
 //        teacherClassService.addTeacherClass(new TeacherClass(advisorId,c.getId(),1));
         return "redirect:/class/allClass";
     }
@@ -200,7 +203,7 @@ public class ClassController {
     }
 
     @RequestMapping("/deleteClassById/{classId}")
-    public String deleteClassById(@PathVariable("classId")Long id,Model model)  {
+    public String deleteClassById(@PathVariable("classId")int id,Model model)  {
         if(studentService.queryByClassId(id).size()>0) {
             ClassInfo classInfo = classService.queryById(id);
             model.addAttribute("grade", classInfo.getGrade());
@@ -216,53 +219,68 @@ public class ClassController {
     }
 
     @RequestMapping("/updateClass")
-    public String updateClass(Model model, ClassInfo classInfo, String advisorId) {
-        /*if(teacherService.queryById(advisorId)==null) {
-            model.addAttribute("grade", classInfo.getGrade());
-            model.addAttribute("classNumber", classInfo.getClassNumber());
-            model.addAttribute("advisorId",advisorId);
-            model.addAttribute("ErrorCode",3);
-            return "class/classError";
-        }
+    public String updateClass(Model model, ClassInfo classInfo,  String course1, String course2, String course3, String advisorCourse) {
+        String advisorId=null;
+        switch (advisorCourse){
+            case "1":advisorId=course1; break;
+            case "2":advisorId=course2; break;
+            case "3":advisorId=course3; break;
 
-        int tag;    //标明修改班级信息时班主任是否保持一致，tag=1表示班主任未修改
-        String originAdvisorId = teacherClassService.queryAdvisorByClassId(classInfo.getId()).getTeacherId();
-        if(originAdvisorId.equals(advisorId)) {
-            tag = 1;
         }
-        else {
-            tag = 0;
-        }
-        if( !(classService.queryById(classInfo.getId()).getGrade().equals(classInfo.getGrade()) && classService.queryById(classInfo.getId()).getClassNumber()== classInfo.getClassNumber())
-                && classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber())!=null) {
+        ClassInfo classInfo1 =  classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber());
+        if(classInfo1!=null && classInfo.getId()!=classInfo1.getId()) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
-            model.addAttribute("ErrorCode",5);
+            model.addAttribute("ErrorCode",1);
             return "class/classError";
         }
-        if(tag==0 && teacherClassService.queryByAdvisor(advisorId)!=null) {
+        TeacherClass teacherClass = teacherClassService.queryByAdvisor(advisorId);
+        if(teacherClass!=null && teacherClass.getClassId()!=classInfo.getId()) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("advisorId",advisorId);
             model.addAttribute("ErrorCode",4);
             return "class/classError";
         }
+        if(course1.equals(course2) || course1.equals(course3) || course2.equals(course3)) {
+            model.addAttribute("grade", classInfo.getGrade());
+            model.addAttribute("classNumber", classInfo.getClassNumber());
+            model.addAttribute("ErrorCode",7);
+            return "class/classError";
+        }
+        if(!course1.equals(advisorId) && !course2.equals(advisorId) && !course3.equals(advisorId)) {
+            model.addAttribute("grade", classInfo.getGrade());
+            model.addAttribute("classNumber", classInfo.getClassNumber());
+            model.addAttribute("ErrorCode",6);
+            return "class/classError";
+        }
+        System.out.println(1);
         classService.updateClass(classInfo);
-        if(tag==0) {
-            teacherClassService.deleteAdvisorByClassId(classInfo.getId());
-            teacherClassService.addTeacherClass(new TeacherClass(advisorId, classInfo.getId(), 1));
-
-        }*/
+        ClassInfo c = classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber());
+        System.out.println(2);
+        teacherClassService.updateTeacherClass(new TeacherClass(course1, c.getId(), 1, 0));
+        teacherClassService.updateTeacherClass(new TeacherClass(course2, c.getId(), 2, 0));
+        teacherClassService.updateTeacherClass(new TeacherClass(course3, c.getId(), 3, 0));
+        System.out.println(3);
+        teacherClassService.updateAdvisorByClassAndTeacher(c.getId(),advisorId);
         return "redirect:/class/allClass";
     }
 
     @RequestMapping("/toUpdateClass")
-    public String toUpdateClass(Model model, Long id) {
+    public String toUpdateClass(Model model, int id) {
         List<Teacher> advisors = teacherService.queryAllNotAdvisor();
+        List<Course> courses = courseService.queryAllCourse();
+        model.addAttribute("courses", courses);
         model.addAttribute("advisors", advisors);
         model.addAttribute("class",classService.queryById(id));
         model.addAttribute("advisorName",teacherService.queryByLeadClass(id).getName());
         model.addAttribute("advisorId",teacherService.queryByLeadClass(id).getId());
+        model.addAttribute("advisorCourse", teacherClassService.queryAdvisorByClassId(id).getCourseId());
+        model.addAttribute("teachers",teacherService.queryAllTeacher());
+        List<TeacherClass> teacherClasses = teacherClassService.queryByClassId(id);
+        for(Course course:courses) {
+            model.addAttribute("teacher"+course.getId(),teacherClassService.queryByClassAndCourse(id,course.getId()));
+        }
         return "class/updateClass";
     }
 

@@ -48,7 +48,7 @@
     <a href="${path}/teacher/allTeacher">老师信息管理</a>
 </h3>
 <h3>
-    <a href="${path}/course/allCourse">课程信息管理</a>
+    <a href="${path}/score/allScore">考试信息管理</a>
 </h3>
 </body>
 </html>

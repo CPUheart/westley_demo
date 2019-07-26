@@ -45,15 +45,16 @@
         班级<input type="number" name="classNumber"><br><br><br>
         <c:forEach var="Course" items="${requestScope.get('courses')}">
             ${Course.name}<select name="course${Course.id}">
+            <option value="0">==请选择==</option>
             <c:forEach var="Teacher" items="${requestScope.get('teachers')}" varStatus="var">
-                <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
+                <option value="${Teacher.id}"> ${Teacher.name}</option>
             </c:forEach>
         </select>
-        </c:forEach>
-        班主任<select name="advisorId" id="advisorId">
+        </c:forEach><br><br><br>
+        班主任<select name="advisorCourse" id="advisorCourse">
             <option value="0">==请选择==</option>
-            <c:forEach var="Teacher" items="${requestScope.get('advisors')}" varStatus="var">
-                <option value="${Teacher.id}" <c:if test="${Teacher.id==advisorId}">selected</c:if>> ${Teacher.name}</option>
+            <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
+                <option value="${Course.id}" <c:if test="${Course.id==advisorCourse}">selected</c:if>> ${Course.name}老师</option>
             </c:forEach>
         </select><br><br><br>
         <input type="button" value="添加" onclick="addClass()">

@@ -7,11 +7,11 @@ import java.util.List;
 public interface ClassService {
     int addClass(ClassInfo classInfo);
 
-    int deleteClassById(Long id);
+    int deleteClassById(int id);
 
     int updateClass(ClassInfo classInfo);
 
-    ClassInfo queryById(Long id);
+    ClassInfo queryById(int id);
 
     List<ClassInfo> queryAllClass();
 

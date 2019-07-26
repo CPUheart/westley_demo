@@ -37,7 +37,7 @@ public class CourseController {
     }
 
     @RequestMapping("/deleteCourse")
-    public String deleteCourse(Long id) {
+    public String deleteCourse(int id) {
         courseService.deleteByCourse(id);
         return "redirect:/course/allCourse";
     }

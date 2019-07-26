@@ -1,13 +1,14 @@
 package com.wf.demo.dao;
 
 import com.wf.demo.entity.Course;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CourseDao {
     List<Course> queryAllCourse();
 
-    Course queryById(Long id);
+    Course queryById(int id);
 
     Course queryByName(String name);
 
@@ -15,5 +16,5 @@ public interface CourseDao {
 
     int updateCourse(Course course);
 
-    int deleteByCourse(Long id);
+    int deleteByCourse(int id);
 }

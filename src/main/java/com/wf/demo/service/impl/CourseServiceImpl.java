@@ -20,7 +20,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course queryById(Long id) {
+    public Course queryById(int id) {
         return courseDao.queryById(id);
     }
 
@@ -40,7 +40,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public int deleteByCourse(Long id) {
+    public int deleteByCourse(int id) {
         return courseDao.deleteByCourse(id);
     }
 }

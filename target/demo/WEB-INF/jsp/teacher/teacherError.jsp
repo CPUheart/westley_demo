@@ -21,6 +21,9 @@
             姓名：${requestScope.get('name')}<br>
             性别：${requestScope.get('gender')}<br>
         </c:if>
+        <c:if test="${ErrorCode==1}">
+            该教师在班级任课，不能删除
+        </c:if>
     </h2>
 </div>
 <div>

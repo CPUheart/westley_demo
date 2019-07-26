@@ -23,6 +23,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public int addStudent(Student student) {
+
         return studentDao.addStudent(student);
     }
 
@@ -42,9 +43,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> queryByClassId(Long id) { return studentDao.queryByClassId(id); }
+    public List<Student> queryByClassId(int id) { return studentDao.queryByClassId(id); }
 
     @Override
-    public int countByClassId(Long id) { return studentDao.countByClassId(id); }
+    public int countByClassId(int id) { return studentDao.countByClassId(id); }
 
 }

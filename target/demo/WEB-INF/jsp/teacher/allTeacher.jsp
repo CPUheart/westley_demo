@@ -54,7 +54,6 @@
                     <th>是否担任班主任</th>
                     <th>年级</th>
                     <th>班级</th>
-                    <th>班级详情</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -64,15 +63,13 @@
                         <td>${TeacherAdvisor.id}</td>
                         <td>${TeacherAdvisor.name}</td>
                         <td>${TeacherAdvisor.gender}</td>
-
                         <c:if test="${TeacherAdvisor.advisor==1}">
                             <td>是</td>
                             <td>${TeacherAdvisor.grade}</td>
                             <td>${TeacherAdvisor.classNumber}</td>
                             <td>
-                                <a href="${path}/school/class/classInfo?id=${TeacherAdvisor.classId}">班级详情</a>
-                            </td>
-                            <td>
+                                <a href="${path}/school/teacher/teachInfo?id=${TeacherAdvisor.id}">任课详情</a> |
+                                <a href="${path}/school/class/classInfo?id=${TeacherAdvisor.classId}">班级详情</a> |
                                 <a href="${path}/school/teacher/toUpdateTeacher?id=${TeacherAdvisor.id}">修改</a>
                             </td>
                         </c:if>
@@ -80,10 +77,9 @@
                             <td>否</td>
                             <td></td>
                             <td></td>
-                            <td></td>
                             <td>
+                                <a href="${path}/school/teacher/teachInfo?id=${TeacherAdvisor.id}">任课详情</a> |
                                 <a href="${path}/school/teacher/toUpdateTeacher?id=${TeacherAdvisor.id}">修改</a> |
-                                <%--<a href="${path}/school/teacher/deleteTeacher/${TeacherAdvisor.id}">删除</a>--%>
                                 <a href="javascript:deleteTeacher('${TeacherAdvisor.id}')">删除</a>
                                 <script type="text/javascript">
                                     function deleteTeacher() {

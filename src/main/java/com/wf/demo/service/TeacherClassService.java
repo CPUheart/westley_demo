@@ -11,22 +11,25 @@ public interface TeacherClassService {
 
     TeacherClass queryByAdvisor(String teacherId);
 
-    TeacherClass queryByTeacherAndClass(Long classId, String teacherId);
+    TeacherClass queryByTeacherAndClass(int classId, String teacherId);
 
-    List<TeacherClass> queryByClassId(Long classId);
+    List<TeacherClass> queryByClassId(int classId);
 
     int addTeacherClass(TeacherClass teacherClass);
 
     int updateTeacherClass(TeacherClass teacherClass);
 
-    int deleteTeacherClass(String teacherId, Long classId);
+    int deleteTeacherClass(String teacherId, int classId);
 
-    int deleteAdvisorByClassId(Long classId);
+    int deleteAdvisorByClassId(int classId);
 
-    int deleteTeacherByClassId(Long classId);
+    int deleteTeacherByClassId(int classId);
 
-    TeacherClass queryAdvisorByClassId(Long classId);
+    TeacherClass queryAdvisorByClassId(int classId);
 
-    int setAdvisorByClassIdAndTeacherId(Long classId, String teacherId);
+    int setAdvisorByClassAndTeacher(int classId, String teacherId);
 
+    TeacherClass queryByClassAndCourse(int classId, int courseId);
+
+    int updateAdvisorByClassAndTeacher(int classId, String teacherId);
 }

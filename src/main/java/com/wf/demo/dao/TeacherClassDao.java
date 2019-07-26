@@ -14,22 +14,24 @@ public interface TeacherClassDao {
 
     TeacherClass queryByAdvisor(String teacherId);
 
-    List<TeacherClass> queryByClassId(Long classId);
+    List<TeacherClass> queryByClassId(int classId);
 
     int addTeacherClass(TeacherClass teacherClass);
 
     int updateTeacherClass(TeacherClass teacherClass);
 
-    int deleteTeacherClass(String teacherId, Long classId);
+    int deleteTeacherClass(String teacherId, int classId);
 
-    int deleteAdvisorByClassId(Long classId);
+    int deleteAdvisorByClassId(int classId);
 
-    int deleteTeacherByClassId(Long classId);
+    int deleteTeacherByClassId(int classId);
 
-    int setAdvisorByClassIdAndTeacherId(Long classId, String teacherId);
+//    int setAdvisorByClassIdAndTeacherId(int classId, String teacherId);
 
 
-    TeacherClass queryAdvisorByClassId(Long classId);
+    TeacherClass queryAdvisorByClassId(int classId);
 
-    TeacherClass queryByTeacherAndClass(@Param("classId") Long classId, @Param("teacherId") String teacherId);
+    TeacherClass queryByClassAndCourse(@Param("classId") int classId, @Param("courseId") int courseId);
+
+    TeacherClass queryByTeacherAndClass(@Param("classId") int classId, @Param("teacherId") String teacherId);
 }

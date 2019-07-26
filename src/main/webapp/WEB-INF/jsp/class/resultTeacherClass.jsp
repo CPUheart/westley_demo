@@ -49,7 +49,7 @@
 
         </div>
         <div class="col-md-4 column"><form>
-            <input type="text" name="name" value="${requestScope.get('teacherName')}">
+            <input type="text" name="name" value="${requestScope.get('teacherName')}"><br>
             <input type="button" value="按班主任姓名搜索" onclick="queryByAdvisor()">
             <input type="button" value="按教师姓名搜索" onclick="queryByTeacherName()">
         </form>

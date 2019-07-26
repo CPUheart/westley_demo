@@ -1,4 +1,4 @@
-package com.wf.demo.entity;
+package com.wf.demo.entity.combine;
 
 public class CourseR {
     private Long id;

@@ -9,11 +9,11 @@ import java.util.List;
 public interface ClassDao {
     int addClass(ClassInfo classInfo);
 
-    int deleteClassById(Long id);
+    int deleteClassById(int id);
 
     int updateClass(ClassInfo classInfo);
 
-    ClassInfo queryById(Long id);
+    ClassInfo queryById(int id);
 
     List<ClassInfo> queryAllClass();
 

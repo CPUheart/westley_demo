@@ -4,7 +4,7 @@ public class StudentClass {
     private String id;
     private String name;
     private String gender;
-    private Long classId;
+    private int classId;
     private String grade;
     private int classNumber;
 
@@ -19,7 +19,7 @@ public class StudentClass {
         this.classNumber = classNumber;
     }
 
-    public StudentClass(String id, String name, String gender, Long classId, String grade, int classNumber) {
+    public StudentClass(String id, String name, String gender, int classId, String grade, int classNumber) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -52,11 +52,11 @@ public class StudentClass {
         this.gender = gender;
     }
 
-    public Long getClassId() {
+    public int getClassId() {
         return classId;
     }
 
-    public void setClassId(Long classId) {
+    public void setClassId(int classId) {
         this.classId = classId;
     }
 

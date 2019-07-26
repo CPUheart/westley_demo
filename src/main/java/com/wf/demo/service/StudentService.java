@@ -18,7 +18,7 @@ public interface StudentService {
 
     Student queryById(String id);
 
-    List<Student> queryByClassId(Long id);
+    List<Student> queryByClassId(int id);
 
-    int countByClassId(Long id);
+    int countByClassId(int id);
 }

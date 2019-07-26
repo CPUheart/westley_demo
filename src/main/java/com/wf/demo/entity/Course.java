@@ -1,14 +1,14 @@
 package com.wf.demo.entity;
 
 public class Course {
-    private Long id;
+    private int id;
     private String name;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -23,7 +23,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(Long id, String name) {
+    public Course(int id, String name) {
         this.id = id;
         this.name = name;
 
