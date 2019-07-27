@@ -21,6 +21,11 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
+    public List<Score> queryAllNoneScore() {
+        return scoreDao.queryAllNoneScore();
+    }
+
+    @Override
     public Score queryByCourseAndStudent(int courseId, String studentId) {
         return scoreDao.queryByCourseAndStudent(courseId, studentId);
     }

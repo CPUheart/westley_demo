@@ -9,6 +9,8 @@ import java.util.List;
 public interface ScoreDao {
     List<Score> queryAllScore();
 
+    List<Score> queryAllNoneScore();
+
     Score queryByCourseAndStudent(@Param("courseId")int courseId, @Param("studentId")String studentId);
 
     int insertScore(Score score);

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: WF
-  Date: 2019/7/26
-  Time: 19:19
+  Date: 2019/7/27
+  Time: 9:53
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,10 +12,9 @@
             + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
 %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %><html>
 <head>
-    <title>学生列表</title>
+    <title>录入成绩</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入 Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -45,25 +44,21 @@
         <div class="col-md-6 column">
             <form name="conditionForm" >
                 年级<select name="grade" id="grade">
-                    <option value="0">==请选择==</option>
-                    <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
-                        <option value="${Grade}">${Grade}</option>
-                    </c:forEach>
+                <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
+                    <option value="${Grade}" <c:if test="${Grade==selectedGrade}">selected</c:if> >${Grade}</option>
+                </c:forEach>
                 </select>
                 班级<select name="classNumber" id="classNumber">
-                    <option value="0">==请选择==</option>
-                    <c:forEach var="ClassNumber" items="${requestScope.get('classNumberList')}" varStatus="var">
-                        <option value="${ClassNumber}">${ClassNumber}</option>
-                    </c:forEach>
+                <c:forEach var="ClassNumber" items="${requestScope.get('classNumberList')}" varStatus="var">
+                    <option value="${ClassNumber}" <c:if test="${ClassNumber==selectedClassNumber}">selected</c:if> >${ClassNumber}</option>
+                </c:forEach>
                 </select>
                 课程<select name="courseId" id="courseId">
-                <option value="0">==请选择==</option>
                 <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
-                    <option value="${Course.id}">${Course.name}</option>
+                    <option value="${Course.id}"  <c:if test="${Course.id==selectedCourse.id}">selected</c:if>>${Course.name}</option>
                 </c:forEach>
                 </select><br>
                 <input type="button" value="录入成绩" onclick="toAddScore()"/>
-                <input type="button" value="查询" onclick="queryScore()"/>
             </form>
             <script type="text/javascript">
                 function toAddScore() {
@@ -72,58 +67,43 @@
                     form.method = "post";
                     form.submit();
                 }
-                function queryScore() {
-                    var form = document.forms['conditionForm'];
-                    form.action = "<%=basePath%>score/queryScore";
-                    form.method = "post";
-                    form.submit();
-                }
             </script>
         </div>
         <div class="col-md-3 column">
         </div>
         <div class="col-md-3 column" style="float:right">
-            <input type="button" value="返回" onclick="history.go(-1);">
+            <input type="button" value="返回" onclick="window.location.href='${path}/school/score/allScore'"/>
         </div>
     </div>
-    <div class="row clearfix">
+    <div class="row">
         <div class="col-md-12 column">
             <table class="table table-hover table-striped">
                 <thead>
-                <tr>
                     <th>学号</th>
                     <th>姓名</th>
-                    <th>课程名称</th>
                     <th>成绩</th>
-                    <th>班级排名</th>
-                    <th>年级排名</th>
-                </tr>
+                    <th>操作</th>
                 </thead>
                 <tbody>
-                <c:forEach var="StudentScore" items="${requestScope.get('list')}" varStatus="status">
-                    <tr>
-                        <td>${StudentScore.studentId}</td>
-                        <td>${StudentScore.studentName}</td>
-                        <td>${StudentScore.courseName}</td>
-                        <td>${StudentScore.scoreNumber}</td>
-                        <td>${StudentScore.rankInClass}</td>
-                        <td>${StudentScore.rankInGrade}</td>
-                        <td>
-                            <a href="${path}/school/class/classInfo?id=${StudentClass.classId}">班级详情</a> |
-                            <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
+                    <c:forEach var="StudentScore" items="${requestScope.get('list')}" varStatus="status">
+                        <tr>
+                            <form name="scoreForm">
+                                <td hidden><input type="text" name="courseId" value="${StudentScore.courseId}"></td>
+                                <td><input type="text" name="studentId" value="${StudentScore.studentId}" readonly></td>
+                                <td><input type="text" value="${StudentScore.studentName}" disabled></td>
+                                <td><input type="number" name="scoreNumber" oninput="if(value>100 || value<0){alert('非法输入！');value=''}"></td>
+                                <td><input type="button" value="录入" onclick="addScore()"/></td>
+                            </form>
                             <script type="text/javascript">
-                                function deleteStudent() {
-                                    var Id= arguments[0];
-                                    msg='是否删除？';
-                                    if(window.confirm(msg)) {
-                                        URL="${path}/school/student/deleteStudent/"+Id;
-                                        window.location=URL;
-                                    }
+                                function addScore() {
+                                    var form = document.forms['scoreForm'];
+                                    form.action = "<%=basePath%>score/addScore";
+                                    form.method = "post";
+                                    form.submit();
                                 }
                             </script>
-                        </td>
-                    </tr>
-                </c:forEach>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>

@@ -7,6 +7,8 @@ import java.util.List;
 public interface ScoreService {
     List<Score> queryAllScore();
 
+    List<Score> queryAllNoneScore();
+
     Score queryByCourseAndStudent(int courseId, String studentId);
 
     int insertScore(Score score);

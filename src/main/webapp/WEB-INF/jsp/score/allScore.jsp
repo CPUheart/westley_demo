@@ -42,19 +42,48 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 column">
-            <a class="btn btn-primary" href="${path}/school/score/toRegistScore">录入成绩</a>
-            <a class="btn btn-primary" href="${path}/school">返回</a>
-        </div>
-        <div class="col-md-4 column">
-
-        </div>
-
-        <div class="col-md-4 column">
-            <form action="<%=basePath%>student/queryByName" method="post">
-                <input type="text" name="name" placeholder="按姓名搜索">
-                <input type="submit">
+        <div class="col-md-6 column">
+            <form name="conditionForm" >
+                年级<select name="grade" id="grade">
+                    <option value="0">==请选择==</option>
+                    <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
+                        <option value="${Grade}">${Grade}</option>
+                    </c:forEach>
+                </select>
+                班级<select name="classNumber" id="classNumber">
+                    <option value="0">==请选择==</option>
+                    <c:forEach var="ClassNumber" items="${requestScope.get('classNumberList')}" varStatus="var">
+                        <option value="${ClassNumber}">${ClassNumber}</option>
+                    </c:forEach>
+                </select>
+                课程<select name="courseId" id="courseId">
+                <option value="0">==请选择==</option>
+                <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
+                    <option value="${Course.id}">${Course.name}</option>
+                </c:forEach>
+                </select><br>
+                <input type="button" value="录入成绩" onclick="toAddScore()"/>
+                <input type="button" value="查询" onclick="queryScore()"/>
             </form>
+            <script type="text/javascript">
+                function toAddScore() {
+                    var form = document.forms['conditionForm'];
+                    form.action = "<%=basePath%>score/toAddScore";
+                    form.method = "post";
+                    form.submit();
+                }
+                function queryScore() {
+                    var form = document.forms['conditionForm'];
+                    form.action = "<%=basePath%>score/queryScore";
+                    form.method = "post";
+                    form.submit();
+                }
+            </script>
+        </div>
+        <div class="col-md-3 column">
+        </div>
+        <div class="col-md-3 column" style="float:right">
+            <input type="button" value="返回" onclick="history.go(-1);">
         </div>
     </div>
     <div class="row clearfix">
@@ -76,14 +105,12 @@
                         <td>${StudentScore.studentId}</td>
                         <td>${StudentScore.studentName}</td>
                         <td>${StudentScore.courseName}</td>
-                        <td>${StudentScore.score}</td>
+                        <td>${StudentScore.scoreNumber}</td>
                         <td>${StudentScore.rankInClass}</td>
                         <td>${StudentScore.rankInGrade}</td>
                         <td>
                             <a href="${path}/school/class/classInfo?id=${StudentClass.classId}">班级详情</a> |
                             <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
-                                <%--<a href="${path}/school/student/deleteStudent/${StudentClass.id}">删除</a>--%>
-                            <a href="javascript:deleteStudent('${StudentClass.id}')">删除</a>
                             <script type="text/javascript">
                                 function deleteStudent() {
                                     var Id= arguments[0];

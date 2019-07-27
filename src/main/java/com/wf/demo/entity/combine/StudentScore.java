@@ -5,7 +5,7 @@ public class StudentScore {
     String studentName;
     int courseId;
     String courseName;
-    int score;
+    int scoreNumber;
     int rankInClass;
     int rankInGrade;
 
@@ -25,12 +25,12 @@ public class StudentScore {
         this.rankInGrade = rankInGrade;
     }
 
-    public StudentScore(String studentId, String studentName, int courseId, String courseName, int score, int rankInClass, int rankInGrade) {
+    public StudentScore(String studentId, String studentName, int courseId, String courseName, int scoreNumber, int rankInClass, int rankInGrade) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.courseId = courseId;
         this.courseName = courseName;
-        this.score = score;
+        this.scoreNumber = scoreNumber;
         this.rankInClass = rankInClass;
         this.rankInGrade = rankInGrade;
     }
@@ -67,12 +67,24 @@ public class StudentScore {
         this.courseName = courseName;
     }
 
-    public int getScore() {
-        return score;
+    public int getScoreNumber() {
+        return scoreNumber;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScoreNumber(int scoreNumber) {
+        this.scoreNumber = scoreNumber;
     }
 
+    @Override
+    public String toString() {
+        return "StudentScore{" +
+                "studentId='" + studentId + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", courseId=" + courseId +
+                ", courseName='" + courseName + '\'' +
+                ", scoreNumber=" + scoreNumber +
+                ", rankInClass=" + rankInClass +
+                ", rankInGrade=" + rankInGrade +
+                '}';
+    }
 }

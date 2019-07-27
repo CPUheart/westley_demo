@@ -7,11 +7,15 @@
     <resultMap id="scoreResultMap" type="Score">
         <id property="courseId" column="course_id"/>
         <id property="studentId" column="student_id"/>
-        <result property="score" column="score"/>
+        <result property="scoreNumber" column="score_number"/>
     </resultMap>
 
     <select id="queryAllScore" resultMap="scoreResultMap">
-        select * from score where score>=0
+        select * from score where score_number>=0
+    </select>
+
+    <select id="queryAllNoneScore" resultMap="scoreResultMap">
+        select * from score where score_number &lt; 0
     </select>
 
     <select id="queryByCourseAndStudent" resultType="Score">
@@ -19,7 +23,11 @@
     </select>
 
     <insert id="insertScore">
-        insert into score(course_id,student_id,score) values (#{courseId},#{studentId},#{score})
+        insert into score(course_id,student_id,score_number) values (#{courseId},#{studentId},#{scoreNumber})
     </insert>
+
+    <update id="updateScore">
+        update score set score_number=${scoreNumber} where course_id=#{courseId} and student_id=#{studentId}
+    </update>
 
 </mapper>
