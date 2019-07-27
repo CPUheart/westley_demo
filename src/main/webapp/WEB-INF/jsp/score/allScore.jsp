@@ -109,18 +109,7 @@
                         <td>${StudentScore.rankInClass}</td>
                         <td>${StudentScore.rankInGrade}</td>
                         <td>
-                            <a href="${path}/school/class/classInfo?id=${StudentClass.classId}">班级详情</a> |
-                            <a href="${path}/school/student/toUpdateStudent?id=${StudentClass.id}">更改</a> |
-                            <script type="text/javascript">
-                                function deleteStudent() {
-                                    var Id= arguments[0];
-                                    msg='是否删除？';
-                                    if(window.confirm(msg)) {
-                                        URL="${path}/school/student/deleteStudent/"+Id;
-                                        window.location=URL;
-                                    }
-                                }
-                            </script>
+
                         </td>
                     </tr>
                 </c:forEach>

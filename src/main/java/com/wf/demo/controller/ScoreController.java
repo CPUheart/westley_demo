@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +147,16 @@ public class ScoreController {
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.queryScore(model,score.getCourseId(),classInfo.getGrade(),classInfo.getClassNumber());
+    }
+
+    @RequestMapping("deleteScore")
+    public String deleteScore(Model model, @RequestParam("studentId")String studentId,@RequestParam("courseName")String courseName) {
+        Course course = courseService.queryByName(courseName);
+        Score score = scoreService.queryByCourseAndStudent(course.getId(),studentId);
+        score.setScoreNumber(-1);
+        scoreService.updateScore(score);
+        ClassInfo classInfo = classService.queryById(studentService.queryById(studentId).getClassId());
+        return this.queryScore(model,course.getId(),classInfo.getGrade(),classInfo.getClassNumber());
     }
 
 }

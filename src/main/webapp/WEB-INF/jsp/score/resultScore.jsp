@@ -92,7 +92,22 @@
                             <td><input type="text" name="studentId" value="${StudentScore.studentId}" readonly></td>
                             <td><input type="text" value="${StudentScore.studentName}" disabled></td>
                             <td><input type="number" name="scoreNumber" value="${StudentScore.scoreNumber}" oninput="if(value>100 || value<0){alert('非法输入！');value=''}"></td>
-                            <td><input type="button" value="修改" onclick="updateScore()"/></td>
+                            <td>
+                                <input type="button" value="修改" onclick="updateScore()"/>
+                                <a href="javascript:deleteScore('${StudentScore.studentId}','${StudentScore.courseName}')">删除</a>
+                                <script type="text/javascript">
+                                    function deleteScore() {
+                                        var id= arguments[0];
+                                        var name=arguments[1];
+                                        msg='是否删除？';
+                                        if(window.confirm(msg)) {
+                                            URL="${path}/school/score/deleteScore?studentId="+id+"&courseName="+name;
+                                            window.location=URL;
+                                        }
+                                    }
+                                </script>
+                            </td>
+
                         </form>
                         <script type="text/javascript">
                             function updateScore() {
