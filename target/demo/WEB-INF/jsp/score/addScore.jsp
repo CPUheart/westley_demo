@@ -43,26 +43,33 @@
     <div class="row">
         <div class="col-md-6 column">
             <form name="conditionForm" >
+                课程<select name="courseId" id="courseId">
+                    <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
+                        <option value="${Course.id}"  <c:if test="${Course.id==selectedCourse.id}">selected</c:if>>${Course.name}</option>
+                    </c:forEach>
+                </select>
                 年级<select name="grade" id="grade">
-                <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
-                    <option value="${Grade}" <c:if test="${Grade==selectedGrade}">selected</c:if> >${Grade}</option>
-                </c:forEach>
+                    <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
+                        <option value="${Grade}" <c:if test="${Grade==selectedGrade}">selected</c:if> >${Grade}</option>
+                    </c:forEach>
                 </select>
                 班级<select name="classNumber" id="classNumber">
-                <c:forEach var="ClassNumber" items="${requestScope.get('classNumberList')}" varStatus="var">
-                    <option value="${ClassNumber}" <c:if test="${ClassNumber==selectedClassNumber}">selected</c:if> >${ClassNumber}</option>
-                </c:forEach>
-                </select>
-                课程<select name="courseId" id="courseId">
-                <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
-                    <option value="${Course.id}"  <c:if test="${Course.id==selectedCourse.id}">selected</c:if>>${Course.name}</option>
-                </c:forEach>
+                    <c:forEach var="ClassNumber" items="${requestScope.get('classNumberList')}" varStatus="var">
+                        <option value="${ClassNumber}" <c:if test="${ClassNumber==selectedClassNumber}">selected</c:if> >${ClassNumber}</option>
+                    </c:forEach>
                 </select><br>
                 <input type="button" value="录入成绩" onclick="toAddScore()"/>
             </form>
             <script type="text/javascript">
                 function toAddScore() {
                     var form = document.forms['conditionForm'];
+                    var a = form['courseId'];
+                    var b = form['grade'];
+                    var c = form['classNumber'];
+                    if(a.value==0 || b.value==0 || c.value==0) {
+                        window.alert("请选择课程、年级、班级！");
+                        return false;
+                    }
                     form.action = "<%=basePath%>score/toAddScore";
                     form.method = "post";
                     form.submit();

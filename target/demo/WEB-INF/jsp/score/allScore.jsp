@@ -44,6 +44,12 @@
     <div class="row">
         <div class="col-md-6 column">
             <form name="conditionForm" >
+                课程<select name="courseId" id="courseId">
+                    <option value="0">==请选择==</option>
+                    <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
+                        <option value="${Course.id}">${Course.name}</option>
+                    </c:forEach>
+                </select>
                 年级<select name="grade" id="grade">
                     <option value="0">==请选择==</option>
                     <c:forEach var="Grade" items="${requestScope.get('gradeList')}" varStatus="var">
@@ -55,12 +61,6 @@
                     <c:forEach var="ClassNumber" items="${requestScope.get('classNumberList')}" varStatus="var">
                         <option value="${ClassNumber}">${ClassNumber}</option>
                     </c:forEach>
-                </select>
-                课程<select name="courseId" id="courseId">
-                <option value="0">==请选择==</option>
-                <c:forEach var="Course" items="${requestScope.get('courses')}" varStatus="var">
-                    <option value="${Course.id}">${Course.name}</option>
-                </c:forEach>
                 </select><br>
                 <input type="button" value="录入成绩" onclick="toAddScore()"/>
                 <input type="button" value="查询" onclick="queryScore()"/>
@@ -68,12 +68,25 @@
             <script type="text/javascript">
                 function toAddScore() {
                     var form = document.forms['conditionForm'];
+                    var a = form['courseId'];
+                    var b = form['grade'];
+                    var c = form['classNumber'];
+                    if(a.value==0 || b.value==0 || c.value==0) {
+                        window.alert("请选择课程、年级、班级！");
+                        return false;
+                    }
                     form.action = "<%=basePath%>score/toAddScore";
                     form.method = "post";
                     form.submit();
                 }
                 function queryScore() {
                     var form = document.forms['conditionForm'];
+                    var a = form['courseId'];
+                    var b = form['grade'];
+                    if(a.value==0 || b.value==0) {
+                        window.alert("请选择课程和年级！");
+                        return false;
+                    }
                     form.action = "<%=basePath%>score/queryScore";
                     form.method = "post";
                     form.submit();

@@ -8,6 +8,20 @@
         <id property="courseId" column="course_id"/>
         <id property="studentId" column="student_id"/>
         <result property="scoreNumber" column="score_number"/>
+        <result property="rankInClass" column="rank_in_class"/>
+        <result property="rankInGrade" column="rank_in_grade"/>
+    </resultMap>
+
+    <resultMap id="rankInClassMap" type="RankInClass">
+        <id property="courseId" column="course_id"/>
+        <id property="classId" column="class_id"/>
+        <result property="scoreNumber" column="score_number"/>
+    </resultMap>
+
+    <resultMap id="rankInGradeMap" type="com.wf.demo.entity.RankInGrade">
+        <id property="courseId" column="course_id"/>
+        <id property="grade" column="grade"/>
+        <result property="scoreNumber" column="score_number"/>
     </resultMap>
 
     <select id="queryAllScore" resultMap="scoreResultMap">
@@ -16,6 +30,46 @@
 
     <select id="queryAllNoneScore" resultMap="scoreResultMap">
         select * from score where score_number &lt; 0
+    </select>
+
+    <select id="queryByCourseAndClass" resultMap="scoreResultMap">
+        select
+            *
+        from
+            score sc, student st
+        where
+            sc.student_id=st.id and sc.course_id=#{courseId} and st.class_id=#{classId} order by sc.rank_in_class
+    </select>
+
+    <select id="queryByCourseAndClassAndScore" resultMap="scoreResultMap">
+        select
+            *
+        from
+            score sc, student st
+        where
+            sc.student_id=st.id and sc.course_id=#{courseId} and st.class_id=#{classId} and sc.score_number=#{scoreNumber}
+        order by
+            sc.rank_in_class
+    </select>
+
+    <select id="queryByGradeAndCourse" resultMap="scoreResultMap">
+        select
+            *
+        from
+            score sc,student st,class c
+        where
+            sc.student_id=st.id and st.class_id=c.id and c.grade=#{grade} and sc.course_id=#{courseId} order by sc.rank_in_grade
+    </select>
+
+    <select id="queryByCourseAndGradeAndScore" resultMap="scoreResultMap">
+        select
+            *
+        from
+            score sc,student st,class c
+        where
+            sc.student_id=st.id and st.class_id=c.id and c.grade=#{grade} and sc.course_id=#{courseId}  and sc.score_number=#{scoreNumber}
+        order by
+            sc.rank_in_grade
     </select>
 
     <select id="queryByCourseAndStudent" resultType="Score">
@@ -27,7 +81,34 @@
     </insert>
 
     <update id="updateScore">
-        update score set score_number=${scoreNumber} where course_id=#{courseId} and student_id=#{studentId}
+        update score set score_number=#{scoreNumber} ,rank_in_class = #{rankInClass} , rank_in_grade=#{rankInGrade}
+        where course_id=#{courseId} and student_id=#{studentId}
     </update>
+
+    <select id="getRankInClass" resultMap="rankInClassMap">
+        select
+            sc.course_id,st.class_id,sc.score_number
+        from
+            score sc, student st
+        where
+            sc.student_id=st.id and sc.course_id=#{courseId} and st.class_id=#{classId}
+        group by
+            sc.score_number
+        order by
+            sc.score_number DESC
+    </select>
+
+    <select id="getRankInGrade" resultMap="rankInGradeMap">
+        select
+              sc.course_id, c.grade, sc.score_number
+        from
+              score sc,student st,class c
+        where
+              sc.course_id=#{courseId} and sc.student_id = st.id and st.class_id = c.id and c.grade=#{grade}
+        group by
+              sc.score_number
+        order by
+            sc.score_number DESC
+    </select>
 
 </mapper>

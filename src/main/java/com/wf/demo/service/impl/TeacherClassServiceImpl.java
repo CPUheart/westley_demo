@@ -3,7 +3,6 @@ package com.wf.demo.service.impl;
 import com.wf.demo.dao.TeacherClassDao;
 import com.wf.demo.entity.TeacherClass;
 import com.wf.demo.service.TeacherClassService;
-import org.omg.CORBA.TCKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
