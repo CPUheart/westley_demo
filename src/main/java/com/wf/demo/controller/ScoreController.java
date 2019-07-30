@@ -184,7 +184,6 @@ public class ScoreController {
             if(score.getScoreNumber() >= 0) {
                 Course course = courseService.queryById(courseId);
                 StudentScore studentScore=new StudentScore(student.getId(), student.getName(), course.getId(), course.getName(), score.getScoreNumber(),score.getRankInClass(), score.getRankInGrade());
-                System.out.println(studentScore.toString());
                 list.add(studentScore);
             }
         }
@@ -205,10 +204,12 @@ public class ScoreController {
      * @return
      */
     @RequestMapping("/updateScore")
-    public String updateScore(Model model,@RequestParam("studentId") String studentId, @RequestParam("courseName")String courseName,@RequestParam("scoreNumber")int scoreNumber) {
-        Course course = courseService.queryByName(courseName);
+    public String updateScore(Model model,@RequestParam("studentId") String studentId, @RequestParam("courseId")int courseId,@RequestParam("scoreNumber")int scoreNumber) {
+        System.out.println("123456");
+        Course course = courseService.queryById(courseId);
         Score score = scoreService.queryByCourseAndStudent(course.getId(),studentId);
         score.setScoreNumber(scoreNumber);
+        System.out.println(score.toString());
         scoreService.updateScore(score);
         rankAll();
         Student student = studentService.queryById(score.getStudentId());

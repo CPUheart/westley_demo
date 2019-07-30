@@ -9,6 +9,7 @@ import com.wf.demo.service.ClassService;
 import com.wf.demo.service.CourseService;
 import com.wf.demo.service.ScoreService;
 import com.wf.demo.service.StudentService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -117,6 +118,10 @@ public class StudentController {
             return "student/studentError";
         } else {
             studentService.addStudent(new Student(studentClass.getId(), studentClass.getName(), studentClass.getGender(), classInfo.getId()));
+            List<Course> courses = courseService.queryAllCourse();
+            for (Course course:courses) {
+                scoreService.insertScore(new Score(course.getId(),studentClass.getId(),-1,0,0));
+            }
             return "redirect:/student/allStudent";
         }
     }
