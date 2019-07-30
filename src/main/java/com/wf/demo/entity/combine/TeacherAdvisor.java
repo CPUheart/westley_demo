@@ -1,13 +1,13 @@
 package com.wf.demo.entity.combine;
 
 public class TeacherAdvisor {
-    private String id;
-    private String name;
-    private String gender;
-    private int advisor;
-    private int classId;
-    private String grade;
-    private int classNumber;
+    private String id;          //教师编号
+    private String name;        //教师姓名
+    private String gender;      //教师性别
+    private int advisor;        //是否为班主任，1代表是班主任，0代表不是班主任
+    private int classId;        //班级id
+    private String grade;       //年级
+    private int classNumber;    //班级
 
     public TeacherAdvisor(String id, String name, String gender, int advisor, int classId, String grade, int classNumber) {
         this.id = id;

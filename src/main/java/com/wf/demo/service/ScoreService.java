@@ -19,11 +19,11 @@ public interface ScoreService {
 
     int updateScore(Score score);
 
-    int deleteScore(int courseId,String studentId);
+//    int deleteScore(int courseId,String studentId);
 
     List<RankInClass> getRankInClass(int courseId, int classId);
 
-    public List<RankInGrade> getRankInGrade(int courseId, String grade) ;
+    List<RankInGrade> getRankInGrade(int courseId, String grade) ;
 
     List<Score> queryByCourseAndClassAndScore(int courseId, int classId, int scoreNumber);
 

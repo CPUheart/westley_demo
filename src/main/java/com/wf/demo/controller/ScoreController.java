@@ -38,14 +38,15 @@ public class ScoreController {
     /**更新所有人排名
      *
      */
-    public void rankAll() {
+    @RequestMapping("/rankAll")
+    public String rankAll(Model model) {
         List<Course> courses = courseService.queryAllCourse();
         List<Student> students = studentService.queryAllStudent();
         List<ClassInfo> classInfos = classService.queryAllClass();
         for(Course course:courses) {
-            for(ClassInfo classInfo:classInfos){
+            for(ClassInfo classInfo:classInfos) {
                 List<RankInClass> rankInClassList = scoreService.getRankInClass(course.getId(), classInfo.getId());
-                int rank = 1;
+                /*int rank = 1;
                 for(RankInClass rankInClass:rankInClassList) {
                     List<Score> scores = scoreService.queryByCourseAndClassAndScore(course.getId(),classInfo.getId(),rankInClass.getScoreNumber());
                     for(Score score:scores) {
@@ -53,9 +54,13 @@ public class ScoreController {
                         scoreService.updateScore(score);
                     }
                     rank++;
+                }*/
+                for(RankInClass rankInClass:rankInClassList) {
+                    System.out.println(rankInClass.toString());
                 }
             }
         }
+
         List<String> grades = classService.queryAllGrade();
         for(Course course:courses) {
             for (String grade : grades) {
@@ -71,7 +76,12 @@ public class ScoreController {
                 }
             }
         }
+        return this.queryAllScore(model);
     }
+
+    /*public void UpdateRankAfterInsert(Model model, Score score, ClassInfo classInfo, ) {
+
+    }*/
 
     /**
      * 成绩列表
@@ -139,7 +149,7 @@ public class ScoreController {
     @RequestMapping("/addScore")
     public String addScore(Model model,Score score ) {
         scoreService.updateScore(score);
-        rankAll();
+//        rankAll();
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.toAddScore(model, score.getCourseId(),classInfo.getGrade(), classInfo.getClassNumber());
@@ -211,7 +221,7 @@ public class ScoreController {
         score.setScoreNumber(scoreNumber);
         System.out.println(score.toString());
         scoreService.updateScore(score);
-        rankAll();
+//        rankAll();
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.queryScore(model,score.getCourseId(),classInfo.getGrade(),classInfo.getClassNumber());
@@ -230,7 +240,7 @@ public class ScoreController {
         Score score = scoreService.queryByCourseAndStudent(course.getId(),studentId);
         score.setScoreNumber(-1);
         scoreService.updateScore(score);
-        rankAll();
+//        rankAll();
         ClassInfo classInfo = classService.queryById(studentService.queryById(studentId).getClassId());
         return this.queryScore(model,course.getId(),classInfo.getGrade(),classInfo.getClassNumber());
     }

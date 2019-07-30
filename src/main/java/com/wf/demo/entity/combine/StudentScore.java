@@ -1,13 +1,13 @@
 package com.wf.demo.entity.combine;
 
 public class StudentScore {
-    String studentId;
-    String studentName;
-    int courseId;
-    String courseName;
-    int scoreNumber;
-    int rankInClass;
-    int rankInGrade;
+    String studentId;       //学生id
+    String studentName;     //学生姓名
+    int courseId;           //课程id
+    String courseName;      //课程名
+    int scoreNumber;        //得分
+    int rankInClass;        //班级排名
+    int rankInGrade;        //年级排名
 
     public int getRankInClass() {
         return rankInClass;

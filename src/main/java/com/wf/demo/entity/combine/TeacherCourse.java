@@ -1,10 +1,10 @@
 package com.wf.demo.entity.combine;
 
 public class TeacherCourse {
-    private String id;
-    private String name;
-    private String gender;
-    private String courseName;
+    private String id;          //教师编号
+    private String name;        //教师姓名
+    private String gender;      //教师性别
+    private String courseName;  //教师教授课程名称
 
     public TeacherCourse(String id, String name, String gender, String courseName) {
         this.id = id;
@@ -12,6 +12,7 @@ public class TeacherCourse {
         this.gender = gender;
         this.courseName = courseName;
     }
+    public TeacherCourse(){}
 
     public String getId() {
         return id;

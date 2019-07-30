@@ -1,12 +1,12 @@
 package com.wf.demo.entity.combine;
 
 public class StudentClass {
-    private String id;
-    private String name;
-    private String gender;
-    private int classId;
-    private String grade;
-    private int classNumber;
+    private String id;          //学生id
+    private String name;        //学生姓名
+    private String gender;      //学生性别
+    private int classId;        //学生所在班级id
+    private String grade;       //学生所在年级
+    private int classNumber;    //学生所在班级号
 
     public StudentClass() {
     }

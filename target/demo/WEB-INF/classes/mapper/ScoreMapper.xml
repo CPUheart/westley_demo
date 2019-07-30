@@ -16,6 +16,7 @@
         <id property="courseId" column="course_id"/>
         <id property="classId" column="class_id"/>
         <result property="scoreNumber" column="score_number"/>
+        <result property="rank" column="rank"/>
     </resultMap>
 
     <resultMap id="rankInGradeMap" type="com.wf.demo.entity.RankInGrade">
@@ -52,14 +53,14 @@
             sc.rank_in_class
     </select>
 
-    <select id="queryByGradeAndCourse" resultMap="scoreResultMap">
+    <!--<select id="queryByGradeAndCourse" resultMap="scoreResultMap">
         select
             *
         from
             score sc,student st,class c
         where
             sc.student_id=st.id and st.class_id=c.id and c.grade=#{grade} and sc.course_id=#{courseId} order by sc.rank_in_grade
-    </select>
+    </select>-->
 
     <select id="queryByCourseAndGradeAndScore" resultMap="scoreResultMap">
         select
@@ -87,9 +88,9 @@
 
     <select id="getRankInClass" resultMap="rankInClassMap">
         select
-            sc.course_id,st.class_id,sc.score_number
+            sc.course_id,st.class_id,sc.score_number,(@rowNum:=@rowNum+1)
         from
-            score sc, student st
+            score sc, student st, (Select (@rowNum :=0) ) b
         where
             sc.student_id=st.id and sc.course_id=#{courseId} and st.class_id=#{classId}
         group by

@@ -4,6 +4,7 @@ import com.wf.demo.dao.ScoreDao;
 import com.wf.demo.entity.Score;
 import com.wf.demo.entity.RankInClass;
 import com.wf.demo.entity.RankInGrade;
+import com.wf.demo.entity.combine.ScoreRank;
 import com.wf.demo.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,13 +46,13 @@ public class ScoreServiceImpl implements ScoreService {
         return scoreDao.updateScore(score);
     }
 
-    @Override
+    /*@Override
     public int deleteScore(int courseId, String studentId) {
         return scoreDao.deleteScore(courseId,studentId);
-    }
+    }*/
 
     @Override
-    public List<RankInClass> getRankInClass(int courseId, int classId) {
+    public List<ScoreRank> getRankInClass(int courseId, int classId) {
         return scoreDao.getRankInClass(courseId,classId);
     }
 

@@ -104,7 +104,6 @@
                             <td><input type="text" name="rankInClass" value="${StudentScore.rankInClass}" readonly /></td>
                             <td><input type="text" name="rankInGrade" value="${StudentScore.rankInGrade}" readonly/></td>
                             <td>
-                                <%--<input type="button" value="修改" onclick="updateScore()"/>--%>
                                 <input type="button" value="修改" onclick="updateScore()">
                                 <a href="javascript:deleteScore('${StudentScore.studentId}','${StudentScore.courseName}')">删除</a>
                                 <script type="text/javascript">

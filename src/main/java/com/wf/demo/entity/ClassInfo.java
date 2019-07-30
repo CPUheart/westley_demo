@@ -2,8 +2,8 @@ package com.wf.demo.entity;
 
 public class ClassInfo {
     private int id;
-    private String grade;
-    private int classNumber;
+    private String grade;   //年级，如2015代表2015级
+    private int classNumber;    //班级号，如1代表1班
 
     public ClassInfo() {
     }

@@ -39,7 +39,9 @@ public class ClassController {
     @RequestMapping("/allClass")
     public String list(Model model) {
         List<ClassTeacher> list = new ArrayList<>();
+        //获取班级列表
         List<ClassInfo> classInfos = classService.queryAllClass();
+
         for (ClassInfo c: classInfos) {
             TeacherClass teacherClass = teacherClassService.queryAdvisorByClassId(c.getId());
             int studentAmount = studentService.countByClassId(c.getId());
@@ -76,6 +78,8 @@ public class ClassController {
         }
         List<Teacher> teachers = teacherService.queryByClass(id);
         List<TeacherCourse> teacherCourse = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+
         for(Teacher teacher:teachers) {
             teacherCourse.add(new TeacherCourse(teacher.getId(),teacher.getName(),teacher.getGender(),
                     courseService.queryById(teacherClassService.queryByTeacherAndClass(id,teacher.getId()).getCourseId()).getName()));
@@ -195,7 +199,6 @@ public class ClassController {
         if("0".equals(advisorCourse)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
-//            model.addAttribute("advisorId",advisorId);
             model.addAttribute("ErrorCode",3);
             return "class/classError";
         }

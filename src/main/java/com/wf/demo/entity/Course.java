@@ -2,7 +2,7 @@ package com.wf.demo.entity;
 
 public class Course {
     private int id;
-    private String name;
+    private String name;    //课程名称
 
     public int getId() {
         return id;

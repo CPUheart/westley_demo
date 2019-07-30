@@ -1,17 +1,29 @@
 package com.wf.demo.entity;
 
+import com.wf.demo.entity.combine.ScoreRank;
+
+import java.util.List;
+
 public class RankInClass {
-    int courseId;
-    int classId;
-    int scoreNumber;
+    private int courseId;       //课程id
+    private int classId;        //班级id
+    private List<ScoreRank> scoreRankList;
 
     public RankInClass() {
     }
 
-    public RankInClass(int courseId, int classId, int scoreNumber) {
+    public RankInClass(int courseId, int classId, List<ScoreRank> scoreRankList) {
         this.courseId = courseId;
         this.classId = classId;
-        this.scoreNumber = scoreNumber;
+        this.scoreRankList = scoreRankList;
+    }
+
+    public List<ScoreRank> getScoreRankList() {
+        return scoreRankList;
+    }
+
+    public void setScoreRankList(List<ScoreRank> scoreRankList) {
+        this.scoreRankList = scoreRankList;
     }
 
     public int getCourseId() {
@@ -30,20 +42,12 @@ public class RankInClass {
         this.classId = classId;
     }
 
-    public int getScoreNumber() {
-        return scoreNumber;
-    }
-
-    public void setScoreNumber(int scoreNumber) {
-        this.scoreNumber = scoreNumber;
-    }
-
     @Override
     public String toString() {
         return "RankInClass{" +
                 "courseId=" + courseId +
                 ", classId=" + classId +
-                ", scoreNumber=" + scoreNumber +
+                ", scoreRankList=" + scoreRankList +
                 '}';
     }
 }

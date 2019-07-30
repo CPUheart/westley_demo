@@ -4,11 +4,11 @@ import com.wf.demo.entity.ClassInfo;
 import com.wf.demo.entity.Course;
 
 public class ClassCourse {
-    private int classId;
-    private String grade;
-    private int classNumber;
-    private int courseId;
-    private String courseName;
+    private int classId;        //班级id
+    private String grade;       //年级
+    private int classNumber;    //班级号
+    private int courseId;       //课程编号
+    private String courseName;  //课程名称
 
     public ClassCourse() {
     }
