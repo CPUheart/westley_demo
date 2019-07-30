@@ -35,14 +35,17 @@ public class ScoreController {
     @Autowired
     ClassService classService;
 
-    public void rankAll(Model model) {
+    /**更新所有人排名
+     *
+     */
+    public void rankAll() {
         List<Course> courses = courseService.queryAllCourse();
         List<Student> students = studentService.queryAllStudent();
         List<ClassInfo> classInfos = classService.queryAllClass();
         for(Course course:courses) {
             for(ClassInfo classInfo:classInfos){
                 List<RankInClass> rankInClassList = scoreService.getRankInClass(course.getId(), classInfo.getId());
-                int rank=1;
+                int rank = 1;
                 for(RankInClass rankInClass:rankInClassList) {
                     List<Score> scores = scoreService.queryByCourseAndClassAndScore(course.getId(),classInfo.getId(),rankInClass.getScoreNumber());
                     for(Score score:scores) {
@@ -66,11 +69,15 @@ public class ScoreController {
                     }
                     rank++;
                 }
-
             }
         }
     }
 
+    /**
+     * 成绩列表
+     * @param model
+     * @return
+     */
     @RequestMapping("/allScore")
     public String queryAllScore(Model model) {
         List<Score> scores = scoreService.queryAllScore();
@@ -87,6 +94,14 @@ public class ScoreController {
         return "score/allScore";
     }
 
+    /**将没有成绩的列表发送给页面
+     *
+     * @param model
+     * @param courseId
+     * @param grade
+     * @param classNumber
+     * @return
+     */
     @RequestMapping("/toAddScore")
     public String toAddScore(Model model, int courseId, String grade, int classNumber) {
         ClassInfo classInfo = classService.queryByGradeAndNumber(grade,classNumber);
@@ -100,7 +115,7 @@ public class ScoreController {
         List<StudentScore> list = new ArrayList<>();
         for (Student student : students) {
             Score score = scoreService.queryByCourseAndStudent(courseId,student.getId());
-            if(score.getScoreNumber()<0) {
+            if(score.getScoreNumber() < 0) {
                 Course course = courseService.queryById(courseId);
                 list.add(new StudentScore(student.getId(), student.getName(), course.getId(), course.getName(), score.getScoreNumber(),score.getRankInClass(), score.getRankInGrade()));
             }
@@ -115,9 +130,16 @@ public class ScoreController {
         return "score/addScore";
     }
 
+    /**添加成绩
+     *
+     * @param model
+     * @param score
+     * @return
+     */
     @RequestMapping("/addScore")
     public String addScore(Model model,Score score ) {
         scoreService.updateScore(score);
+        rankAll();
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.toAddScore(model, score.getCourseId(),classInfo.getGrade(), classInfo.getClassNumber());
@@ -126,10 +148,9 @@ public class ScoreController {
     @RequestMapping("/queryScore")
     public String queryScore(Model model, int courseId, String grade, int classNumber){
         List<ClassInfo> classes = new ArrayList<>();
-        if(classNumber==0) {
+        if(classNumber == 0) {
             classes = classService.queryByGrade(grade);
-        }
-        else {
+        } else {
             classes.add(classService.queryByGradeAndNumber(grade,classNumber));
         }
         if(classes.isEmpty()) {
@@ -140,27 +161,27 @@ public class ScoreController {
         }
         List<Score> scores = new ArrayList<>();
         for(ClassInfo classInfo:classes) {
-            scores.addAll(scoreService.queryByCourseAndClass(courseId,classInfo.getId()));
+            List<Score> scores1 = scoreService.queryByCourseAndClass(courseId, classInfo.getId());
+            if(scores1!=null) {
+                scores.addAll(scores1);
+            }
         }
         Collections.sort(scores, new Comparator<Score>() {
             @Override
             public int compare(Score o1, Score o2) {
                 if(o1.getRankInGrade()>o2.getRankInGrade()) {
                     return 1;
-                }
-                else if(o1.getRankInGrade()==o2.getRankInGrade()) {
+                } else if(o1.getRankInGrade()==o2.getRankInGrade()) {
                     return 0;
-                }
-                else {
+                } else {
                     return -1;
                 }
             }
         });
-        //List<Score> scores= scoreService.queryByCourseAndClass(courseId,classInfo.getId());
         List<StudentScore> list = new ArrayList<>();
         for (Score score : scores) {
             Student student = studentService.queryById(score.getStudentId());
-            if(score.getScoreNumber()>=0) {
+            if(score.getScoreNumber() >= 0) {
                 Course course = courseService.queryById(courseId);
                 StudentScore studentScore=new StudentScore(student.getId(), student.getName(), course.getId(), course.getName(), score.getScoreNumber(),score.getRankInClass(), score.getRankInGrade());
                 System.out.println(studentScore.toString());
@@ -177,20 +198,38 @@ public class ScoreController {
         return "score/resultScore";
     }
 
+    /**修改成绩
+     *
+     * @param model
+     * @param
+     * @return
+     */
     @RequestMapping("/updateScore")
-    public String updateScore(Model model, Score score) {
+    public String updateScore(Model model,@RequestParam("studentId") String studentId, @RequestParam("courseName")String courseName,@RequestParam("scoreNumber")int scoreNumber) {
+        Course course = courseService.queryByName(courseName);
+        Score score = scoreService.queryByCourseAndStudent(course.getId(),studentId);
+        score.setScoreNumber(scoreNumber);
         scoreService.updateScore(score);
+        rankAll();
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.queryScore(model,score.getCourseId(),classInfo.getGrade(),classInfo.getClassNumber());
     }
 
+    /**删除成绩
+     *
+     * @param model
+     * @param studentId
+     * @param courseName
+     * @return
+     */
     @RequestMapping("/deleteScore")
     public String deleteScore(Model model, @RequestParam("studentId")String studentId,@RequestParam("courseName")String courseName) {
         Course course = courseService.queryByName(courseName);
         Score score = scoreService.queryByCourseAndStudent(course.getId(),studentId);
         score.setScoreNumber(-1);
         scoreService.updateScore(score);
+        rankAll();
         ClassInfo classInfo = classService.queryById(studentService.queryById(studentId).getClassId());
         return this.queryScore(model,course.getId(),classInfo.getGrade(),classInfo.getClassNumber());
     }

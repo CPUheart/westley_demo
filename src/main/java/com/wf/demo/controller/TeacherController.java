@@ -36,6 +36,11 @@ public class TeacherController {
     @Autowired
     CourseService courseService;
 
+    /**教师列表
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/allTeacher")
     public String list(Model model) {
         List<Teacher> teachers = teacherService.queryAllTeacher();
@@ -47,8 +52,7 @@ public class TeacherController {
                 advisor=1;
                 ClassInfo classInfo = classService.queryById(teacherClass.getClassId());
                 list.add(new TeacherAdvisor(teacher.getId(),teacher.getName(),teacher.getGender(),advisor, classInfo.getId(), classInfo.getGrade(), classInfo.getClassNumber()));
-            }
-            else {
+            } else {
                 advisor=0;
                 list.add(new TeacherAdvisor(teacher.getId(),teacher.getName(),teacher.getGender(),advisor,0,"",0));
             }
@@ -62,6 +66,12 @@ public class TeacherController {
         return "teacher/addTeacher";
     }
 
+    /**添加教师
+     *
+     * @param model
+     * @param teacher
+     * @return
+     */
     @RequestMapping("/addTeacher")
     public String addTeacher(Model model, Teacher teacher) {
         if(teacherService.queryById(teacher.getId())!=null) {
@@ -75,19 +85,35 @@ public class TeacherController {
         return "redirect:/teacher/allTeacher";
     }
 
+    /**返回需要修改的教师信息
+     *
+     * @param model
+     * @param teacherId
+     * @return
+     */
     @RequestMapping("/toUpdateTeacher")
     public String toUpdateTeacher(Model model, @RequestParam("id") String teacherId) {
         model.addAttribute("teacher", teacherService.queryById(teacherId));
         return "teacher/updateTeacher";
     }
 
+    /**修改教师信息
+     *
+     * @param teacher
+     * @return
+     */
     @RequestMapping("/updateTeacher")
     public String updateTeacher(Teacher teacher) {
         teacherService.updateTeacher(teacher);
         return "redirect:/teacher/allTeacher";
     }
 
-
+    /**删除教师
+     *
+     * @param teacherId
+     * @param model
+     * @return
+     */
     @RequestMapping("/deleteTeacher/{id}")
     public String deleteTeacherById(@PathVariable("id")String teacherId, Model model)  {
         if(teacherClassService.queryByTeacher(teacherId).isEmpty() == false) {
@@ -98,6 +124,12 @@ public class TeacherController {
         return "redirect:/teacher/allTeacher";
     }
 
+    /**教师详细信息
+     *
+     * @param model
+     * @param teacherId
+     * @return
+     */
     @RequestMapping("/teachInfo")
     public String teacherInfo(Model model, @RequestParam("id")String teacherId) {
         Teacher teacher = teacherService.queryById(teacherId);
@@ -114,5 +146,4 @@ public class TeacherController {
         model.addAttribute("list", list);
         return "teacher/teachInfo";
     }
-
 }

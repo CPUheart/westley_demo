@@ -1,9 +1,13 @@
 package com.wf.demo.controller;
 
 import com.wf.demo.entity.ClassInfo;
+import com.wf.demo.entity.Course;
+import com.wf.demo.entity.Score;
 import com.wf.demo.entity.Student;
 import com.wf.demo.entity.combine.StudentClass;
 import com.wf.demo.service.ClassService;
+import com.wf.demo.service.CourseService;
+import com.wf.demo.service.ScoreService;
 import com.wf.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,17 @@ public class StudentController {
     @Autowired
     ClassService classService;
 
+    @Autowired
+    CourseService courseService;
+
+    @Autowired
+    ScoreService scoreService;
+
+    /**获取学生列表
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/allStudent")
     public String list(Model model) {
         List<Student> students = studentService.queryAllStudent();
@@ -37,13 +52,12 @@ public class StudentController {
         return "student/allStudent";
     }
 
-//    @RequestMapping("/queryByGrade")
-//    public String queryByGrade(Model model, String grade) {
-//        List<ClassInfo> list = classService.queryByGrade(grade);
-//        model.addAttribute("class",list);
-//        return "student/allStudent";
-//    }
-
+    /**通过姓名查找学生
+     *
+     * @param model
+     * @param name
+     * @return
+     */
     @RequestMapping("/queryByName")
     public String queryByName(Model model, @RequestParam("name")String name) {
         List<Student> students = studentService.queryByName(name);
@@ -56,6 +70,14 @@ public class StudentController {
         return "student/resultStudent";
     }
 
+    /**通过班级返回学生列表
+     *
+     * @param model
+     * @param grade
+     * @param classNumber
+     * @param ra
+     * @return
+     */
     @RequestMapping("/queryByClass")
     public String queryByClass(Model model, @RequestParam("grade") String grade, @RequestParam("classNumber") int classNumber, RedirectAttributes ra) {
         ClassInfo classInfo = classService.queryByGradeAndNumber(grade,classNumber);
@@ -66,23 +88,24 @@ public class StudentController {
             return "student/studentError";
         }
         ra.addAttribute("id", classInfo.getId());
-//        List<Student> list = studentService.queryByClassId(classInfo.getId());
-//        model.addAttribute("list",list);
-//        model.addAttribute("grade",grade);
-//        model.addAttribute("classNumber",classNumber);
         return "redirect:../class/classInfo";
     }
 
+    /**添加学生
+     *
+     * @param studentClass
+     * @param model
+     * @return
+     */
     @RequestMapping("/addStudent")
     public String addStudent(StudentClass studentClass,Model model) {
         ClassInfo classInfo = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
-        if(classInfo ==null){
-            model.addAttribute("grade",studentClass.getGrade());
-            model.addAttribute("classNumber",studentClass.getClassNumber());
-            model.addAttribute("ErrorCode",1);
+        if(classInfo ==null) {
+            model.addAttribute("grade", studentClass.getGrade());
+            model.addAttribute("classNumber", studentClass.getClassNumber());
+            model.addAttribute("ErrorCode", 1);
             return "student/studentError";
-        }
-        else if(studentService.queryById(studentClass.getId())!=null) {
+        } else if(studentService.queryById(studentClass.getId())!=null) {
             model.addAttribute("ErrorCode",2);
             Student student = studentService.queryById(studentClass.getId());
             ClassInfo classInfo1 = classService.queryById(student.getClassId());
@@ -92,27 +115,42 @@ public class StudentController {
             model.addAttribute("grade", classInfo1.getGrade());
             model.addAttribute("classNumber", classInfo1.getClassNumber());
             return "student/studentError";
-        }
-        else {
+        } else {
             studentService.addStudent(new Student(studentClass.getId(), studentClass.getName(), studentClass.getGender(), classInfo.getId()));
             return "redirect:/student/allStudent";
         }
     }
 
+    /**准备添加学生
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/toAddStudent")
     public String toAddStudent(Model model) {
-       model.addAttribute("gradeList", classService.queryAllGrade());
-       model.addAttribute("classNumberList", classService.queryAllClassNumber());
-       model.addAttribute("message","成功");
+        model.addAttribute("gradeList", classService.queryAllGrade());
+        model.addAttribute("classNumberList", classService.queryAllClassNumber());
+        model.addAttribute("message","成功");
         return "student/addStudent";
     }
 
+    /**删除学生
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/deleteStudent/{id}")
     public String deleteStudentById(@PathVariable("id")String id) {
         studentService.deleteStudent(id);
         return "redirect:/student/allStudent";
     }
 
+    /**修改学生信息
+     *
+     * @param model
+     * @param studentClass
+     * @return
+     */
     @RequestMapping("/updateStudent")
     public String updateStudent(Model model, StudentClass studentClass) {
         ClassInfo classInfo = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
@@ -121,18 +159,18 @@ public class StudentController {
             model.addAttribute("classNumber",studentClass.getClassNumber());
             model.addAttribute("ErrorCode",1);
             return "student/studentError";
-        }
-        else {
-
+        } else {
             studentService.updateStudent(new Student(studentClass.getId(), studentClass.getName(), studentClass.getGender(), classInfo.getId()));
-//            Student student = studentService.queryById(studentClass.getId());
-//            classInfo = classService.queryById(student.getClassId());
-
-//            model.addAttribute("studentClass", new StudentClass(student.getId(), student.getName(), student.getGender(), student.getClassId(), classInfo.getGrade(), classInfo.getClassNumber()));
             return "redirect:/student/allStudent";
         }
     }
 
+    /**返回被修改的学生的原本信息
+     *
+     * @param model
+     * @param id
+     * @return
+     */
     @RequestMapping("/toUpdateStudent")
     public String toUpdateStudent(Model model, String id) {
         model.addAttribute("gradeList", classService.queryAllGrade());

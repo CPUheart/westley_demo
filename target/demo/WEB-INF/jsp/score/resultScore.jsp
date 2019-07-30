@@ -104,9 +104,21 @@
                             <td><input type="text" name="rankInClass" value="${StudentScore.rankInClass}" readonly /></td>
                             <td><input type="text" name="rankInGrade" value="${StudentScore.rankInGrade}" readonly/></td>
                             <td>
-                                <input type="button" value="修改" onclick="updateScore()"/>
+                                <%--<input type="button" value="修改" onclick="updateScore()"/>--%>
+                                <a href="javascript:updateScore('${StudentScore.studentId}','${StudentScore.courseName}','${StudentScore.scoreNumber}')">修改</a>
                                 <a href="javascript:deleteScore('${StudentScore.studentId}','${StudentScore.courseName}')">删除</a>
                                 <script type="text/javascript">
+                                    function updateScore() {
+                                        var id= arguments[0];
+                                        var name=arguments[1];
+                                        var scoreNumber=arguments[2];
+                                        URL="${path}/school/score/updateScore?studentId="+id+"&courseName="+name+"&scoreNumber="+scoreNumber;
+                                        window.location=URL;
+                                        /*var form= document.forms['scoreForm'];
+                                        form.action = "<%=basePath%>score/updateScore";
+                                        form.method = "post";
+                                        form.submit();*/
+                                    }
                                     function deleteScore() {
                                         var id= arguments[0];
                                         var name=arguments[1];

@@ -15,6 +15,11 @@ public class CourseController {
     @Autowired
     CourseService courseService;
 
+    /**
+     * 课程列表
+     * @param model
+     * @return
+     */
     @RequestMapping("/allCourse")
     public String queryAllCourse(Model model){
         List<Course> list = courseService.queryAllCourse();
@@ -22,6 +27,12 @@ public class CourseController {
         return "course/allCourse";
     }
 
+    /**
+     * 添加课程
+     * @param model
+     * @param course
+     * @return
+     */
     @RequestMapping("/addCourse")
     public String addCourse(Model model, Course course){
         if(courseService.queryByName(course.getName())!=null){
@@ -33,12 +44,23 @@ public class CourseController {
         return "course/addCourse";
     }
 
+    /**删除课程
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/deleteCourse")
     public String deleteCourse(int id) {
         courseService.deleteByCourse(id);
         return "redirect:/course/allCourse";
     }
 
+    /**更新课程
+     *
+     * @param model
+     * @param course
+     * @return
+     */
     @RequestMapping("/updateCourse")
     public String updateCourse(Model model, Course course) {
         if(courseService.queryByName(course.getName())!=null) {
