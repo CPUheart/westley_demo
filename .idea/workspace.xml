@@ -8,35 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1dcf8325-916d-4b06-a9f1-96435a254fb7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/ClassController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/ClassController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/CourseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/CourseControllerR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/ScoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/ScoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/TeacherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wf/demo/controller/TeacherController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/dao/CourseDaoR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/entity/combine/CourseR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/service/CourseServiceR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wf/demo/service/impl/CourseServiceImplR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/score/resultScore.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/score/resultScore.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/ClassController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/ClassController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/CourseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/ScoreController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/ScoreController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/ScoreController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/ScoreController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/StudentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/StudentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/TeacherController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wf/demo/controller/TeacherController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/dao/CourseDaoR.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/entity/combine/CourseR.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wf/demo/service/CourseServiceR.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/ClassController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/ClassController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/CourseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/ScoreController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/ScoreController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/ScoreController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/ScoreController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/StudentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/StudentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/TeacherController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/controller/TeacherController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/dao/CourseDaoR.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/entity/combine/CourseR.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/demo/WEB-INF/classes/com/wf/demo/service/CourseServiceR.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -62,7 +33,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/wf/demo/controller/ScoreController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="220">
@@ -97,7 +68,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/score/resultScore.jsp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="405">
@@ -553,7 +524,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564454299203" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564456283174" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -840,7 +811,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="280427000" />
+    <option name="totallyTimeSpent" value="281093000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1336,6 +1307,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/score/resultScore.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="114" column="126" selection-start-line="114" selection-start-column="115" selection-end-line="114" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/wf/demo/controller/ScoreController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -1345,13 +1323,6 @@
             <element signature="e#6728#7118#0" expanded="true" />
             <element signature="e#7117#7118#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/score/resultScore.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="114" column="126" selection-start-line="114" selection-start-column="115" selection-end-line="114" selection-end-column="126" />
         </state>
       </provider>
     </entry>
