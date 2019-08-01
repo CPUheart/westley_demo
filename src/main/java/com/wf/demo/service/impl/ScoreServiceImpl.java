@@ -46,10 +46,10 @@ public class ScoreServiceImpl implements ScoreService {
         return scoreDao.updateScore(score);
     }
 
-    /*@Override
+    @Override
     public int deleteScore(int courseId, String studentId) {
         return scoreDao.deleteScore(courseId,studentId);
-    }*/
+    }
 
     @Override
     public List<ScoreRank> getRankInClass(int courseId, int classId) {
@@ -57,7 +57,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public List<RankInGrade> getRankInGrade(int courseId, String grade) {
+    public List<ScoreRank> getRankInGrade(int courseId, String grade) {
         return scoreDao.getRankInGrade(courseId, grade);
     }
 
@@ -69,5 +69,15 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public List<Score> queryByCourseAndGradeAndScore(int courseId, String grade, int scoreNumber) {
         return scoreDao.queryByCourseAndGradeAndScore(courseId,grade,scoreNumber);
+    }
+
+    @Override
+    public int setRankInClass(int courseId, int classId, int scoreNumber, int rank) {
+        return scoreDao.setRankInClass(courseId,classId,scoreNumber,rank);
+    }
+
+    @Override
+    public int setRankInGrade(int courseId, String grade, int scoreNumber, int rank) {
+        return scoreDao.setRankInGrade(courseId,grade,scoreNumber,rank);
     }
 }

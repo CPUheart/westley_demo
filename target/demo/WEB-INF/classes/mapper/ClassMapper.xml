@@ -8,12 +8,6 @@
         <result property="grade" column="grade"/>
         <result property="classNumber" column="class_number"/>
     </resultMap>
-    <resultMap id="gradeMap" type="String">
-        <id property="grade" column="grade"/>
-    </resultMap>
-    <resultMap id="classNumberMap" type="Integer">
-        <id property="classNumber" column="class_number"/>
-    </resultMap>
     <select id="queryAllClass" resultMap="classResultMap">
         select id,grade,class_number from class order by grade ,class_number
     </select>

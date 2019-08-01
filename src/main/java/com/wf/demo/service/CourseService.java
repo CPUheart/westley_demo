@@ -11,10 +11,5 @@ public interface CourseService {
 
     Course queryByName(String name);
 
-    int insertCourse(Course course);
-
-    int updateCourse(Course course);
-
-    int deleteByCourse(int id);
 
 }

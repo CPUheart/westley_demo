@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,11 @@ public class ClassController {
         List<ClassInfo> classInfos = classService.queryAllClass();
 
         for (ClassInfo c: classInfos) {
+            //获取该班级的班主任
             TeacherClass teacherClass = teacherClassService.queryAdvisorByClassId(c.getId());
+            //获取班级学生数量
             int studentAmount = studentService.countByClassId(c.getId());
+            //判断班主任是否存在
             if(teacherClass == null)
                 list.add(new ClassTeacher(c.getId(),c.getGrade(),c.getClassNumber(),"#","暂无班主任","男",studentAmount));
             else {
@@ -59,7 +63,7 @@ public class ClassController {
     /**
      * 班级详情信息
      * @param model
-     * @param id
+     * @param id    班级id
      * @return
      */
     @RequestMapping("/classInfo")
@@ -70,6 +74,7 @@ public class ClassController {
         int studentAmount = students.size();
         int maleAmount = 0;
         int femaleAmount = 0;
+        //统计班级里的男女生人数
         for(Student student:students) {
             if(student.getGender().equals("男"))
                 maleAmount++;
@@ -78,8 +83,8 @@ public class ClassController {
         }
         List<Teacher> teachers = teacherService.queryByClass(id);
         List<TeacherCourse> teacherCourse = new ArrayList<>();
-        List<String> ids = new ArrayList<>();
 
+        //组合教师信息和教师的任课信息
         for(Teacher teacher:teachers) {
             teacherCourse.add(new TeacherCourse(teacher.getId(),teacher.getName(),teacher.getGender(),
                     courseService.queryById(teacherClassService.queryByTeacherAndClass(id,teacher.getId()).getCourseId()).getName()));
@@ -98,13 +103,16 @@ public class ClassController {
     /**
      * 根据年级查询班级
      * @param model
-     * @param grade
+     * @param grade 年级
      * @return
      */
     @RequestMapping("/queryByGrade")
     public String queryByGrade(Model model, String grade) {
+        //通过年级得到班级列表
         List<ClassInfo> classInfos = classService.queryByGrade(grade);
         List<ClassTeacher> list = new ArrayList<>();
+
+        //通过班级列表查询班级的班主任信息
         for (ClassInfo c: classInfos) {
             TeacherClass teacherClass = teacherClassService.queryAdvisorByClassId(c.getId());
             int studentAmount = studentService.countByClassId(c.getId());
@@ -124,13 +132,15 @@ public class ClassController {
     /**
      * 根据教师姓名查询班级
      * @param model
-     * @param name
+     * @param name 教师姓名
      * @return
      */
     @RequestMapping("/queryByTeacherName")
     public String queryByTeacherName(Model model,String name) {
+        //通过教师姓名查询教师列表（可能有重名）
         List<Teacher> teachers = teacherService.queryByName(name);
         List<ClassTeacher> list = new ArrayList<>();
+        //通过教师查询教师所教授班级信息
         for (Teacher teacher:teachers) {
             List<TeacherClass> teacherClasses= teacherClassService.queryByTeacher(teacher.getId());
             for(TeacherClass teacherClass:teacherClasses) {
@@ -149,13 +159,15 @@ public class ClassController {
     /**
      * 根据班主任姓名查询班级
      * @param model
-     * @param name
+     * @param name 班主任姓名
      * @return
      */
     @RequestMapping("/queryByAdvisor")
     public String queryByAdvisor(Model model, String name) {
+        //通过姓名查询教师
         List<Teacher> teachers = teacherService.queryByName(name);
         List<ClassTeacher> list = new ArrayList<>();
+        //通过教师查询该教师担任班主任的班级信息
         for (Teacher teacher:teachers) {
             TeacherClass teacherClass= teacherClassService.queryByAdvisor(teacher.getId());
             if(teacherClass != null) {
@@ -174,34 +186,38 @@ public class ClassController {
     /**
      * 添加班级
      * @param model
-     * @param classInfo
-     * @param course1
-     * @param course2
-     * @param course3
-     * @param advisorCourse
+     * @param classInfo 班级
+     * @param course1 课程1的教师编号
+     * @param course2 课程2的教师编号
+     * @param course3 课程3的教师编号
+     * @param advisorCourse 班主任担任的课程名
      * @return
      */
     @RequestMapping("/addClass")
     public String addClass(Model model, ClassInfo classInfo, String course1, String course2, String course3, String advisorCourse) {
         String advisorId = null;
+        //通过班主任教授的课程获取班主任编号
         switch (advisorCourse){
             case "1":advisorId = course1; break;
             case "2":advisorId = course2; break;
             case "3":advisorId = course3; break;
             default:break;
         }
+        //查询添加的班级是否已经存在
         if(classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber())!=null) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",1);
             return "class/classError";
         }
+        //判断班主任是否选择
         if("0".equals(advisorCourse)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",3);
             return "class/classError";
         }
+        //判断新增班级的班主任是否担任其他班级班主任职务
         if(teacherClassService.queryByAdvisor(advisorId)!=null) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
@@ -209,12 +225,14 @@ public class ClassController {
             model.addAttribute("ErrorCode",4);
             return "class/classError";
         }
+        //判断该班级的任课教师是否重复
         if(course1.equals(course2) || course1.equals(course3) || course2.equals(course3)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",7);
             return "class/classError";
         }
+        //判断班主任是否在该班级任教
         if(!course1.equals(advisorId) && !course2.equals(advisorId) && !course3.equals(advisorId)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
@@ -246,12 +264,13 @@ public class ClassController {
 
     /**
      * 删除班级
-     * @param id
      * @param model
+     * @param id 班级编号
      * @return
      */
-    @RequestMapping("/deleteClassById/{classId}")
-    public String deleteClassById(@PathVariable("classId")int id,Model model)  {
+    @RequestMapping(value = "/deleteClassById/{classId}",method = {RequestMethod.GET, RequestMethod.POST})
+    public String deleteClassById(Model model, @PathVariable("classId")int id)  {
+        //判断该班级是否有学生，如果还有学生，不能删除
         if(studentService.queryByClassId(id).size() > 0) {
             ClassInfo classInfo = classService.queryById(id);
             model.addAttribute("grade", classInfo.getGrade());
@@ -269,23 +288,25 @@ public class ClassController {
     /**
      * 修改班级信息
      * @param model
-     * @param classInfo
-     * @param course1
-     * @param course2
-     * @param course3
-     * @param advisorCourse
+     * @param classInfo 班级
+     * @param course1   课程1教师编号
+     * @param course2   课程2教师编号
+     * @param course3   课程3教师编号
+     * @param advisorCourse 班主任教授课程
      * @return
      */
     @RequestMapping("/updateClass")
     public String updateClass(Model model, ClassInfo classInfo,  String course1, String course2, String course3, String advisorCourse) {
         String advisorId=null;
+        //通过班主任教授的课程获取班主任编号
         switch (advisorCourse){
             case "1":advisorId=course1; break;
             case "2":advisorId=course2; break;
             case "3":advisorId=course3; break;
             default:break;
-
         }
+
+        //判断修改后的班级是否已经存在
         ClassInfo classInfo1 =  classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber());
         if(classInfo1!=null && classInfo.getId()!=classInfo1.getId()) {
             model.addAttribute("grade", classInfo.getGrade());
@@ -293,6 +314,7 @@ public class ClassController {
             model.addAttribute("ErrorCode",1);
             return "class/classError";
         }
+        //判断修改后的班主任是否担任其他班级的班主任职位
         TeacherClass teacherClass = teacherClassService.queryByAdvisor(advisorId);
         if(teacherClass!=null && teacherClass.getClassId()!=classInfo.getId()) {
             model.addAttribute("grade", classInfo.getGrade());
@@ -301,18 +323,23 @@ public class ClassController {
             model.addAttribute("ErrorCode",4);
             return "class/classError";
         }
+
+        //判断该班级是否有任课教师重复
         if(course1.equals(course2) || course1.equals(course3) || course2.equals(course3)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",7);
             return "class/classError";
         }
+
+        //判断班主任是否在任课教师中
         if(!course1.equals(advisorId) && !course2.equals(advisorId) && !course3.equals(advisorId)) {
             model.addAttribute("grade", classInfo.getGrade());
             model.addAttribute("classNumber", classInfo.getClassNumber());
             model.addAttribute("ErrorCode",6);
             return "class/classError";
         }
+        //添加班级和任课信息
         classService.updateClass(classInfo);
         ClassInfo c = classService.queryByGradeAndNumber(classInfo.getGrade(), classInfo.getClassNumber());
         teacherClassService.updateTeacherClass(new TeacherClass(course1, c.getId(), 1, 0));
@@ -325,13 +352,14 @@ public class ClassController {
     /**
      * 准备修改班级，将要修改班级的详情信息传给页面
      * @param model
-     * @param id
+     * @param id 班级编号
      * @return
      */
     @RequestMapping("/toUpdateClass")
     public String toUpdateClass(Model model, int id) {
         List<Teacher> advisors = teacherService.queryAllNotAdvisor();
         List<Course> courses = courseService.queryAllCourse();
+        //将课程列表、班主任列表、班级信息、班主任姓名、id、班主任教授课程、教师列表发送给前端
         model.addAttribute("courses", courses);
         model.addAttribute("advisors", advisors);
         model.addAttribute("class",classService.queryById(id));
@@ -339,7 +367,6 @@ public class ClassController {
         model.addAttribute("advisorId",teacherService.queryByLeadClass(id).getId());
         model.addAttribute("advisorCourse", teacherClassService.queryAdvisorByClassId(id).getCourseId());
         model.addAttribute("teachers",teacherService.queryAllTeacher());
-        List<TeacherClass> teacherClasses = teacherClassService.queryByClassId(id);
         for(Course course:courses) {
             model.addAttribute("teacher"+course.getId(),teacherClassService.queryByClassAndCourse(id,course.getId()));
         }

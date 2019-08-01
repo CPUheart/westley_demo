@@ -6,6 +6,7 @@ import com.wf.demo.entity.Score;
 import com.wf.demo.entity.Student;
 import com.wf.demo.entity.RankInClass;
 import com.wf.demo.entity.RankInGrade;
+import com.wf.demo.entity.combine.ScoreRank;
 import com.wf.demo.entity.combine.StudentScore;
 import com.wf.demo.service.ClassService;
 import com.wf.demo.service.CourseService;
@@ -38,50 +39,47 @@ public class ScoreController {
     /**更新所有人排名
      *
      */
-    @RequestMapping("/rankAll")
-    public String rankAll(Model model) {
+    private void rankAll() {
         List<Course> courses = courseService.queryAllCourse();
-        List<Student> students = studentService.queryAllStudent();
         List<ClassInfo> classInfos = classService.queryAllClass();
+        List<RankInClass> rankInClassList = new ArrayList<>();
+        List<RankInGrade> rankInGradeList = new ArrayList<>();
+        //获取每个班级各学科的成绩排名信息
         for(Course course:courses) {
             for(ClassInfo classInfo:classInfos) {
-                List<RankInClass> rankInClassList = scoreService.getRankInClass(course.getId(), classInfo.getId());
-                /*int rank = 1;
-                for(RankInClass rankInClass:rankInClassList) {
-                    List<Score> scores = scoreService.queryByCourseAndClassAndScore(course.getId(),classInfo.getId(),rankInClass.getScoreNumber());
-                    for(Score score:scores) {
-                        score.setRankInClass(rank);
-                        scoreService.updateScore(score);
-                    }
-                    rank++;
-                }*/
-                for(RankInClass rankInClass:rankInClassList) {
-                    System.out.println(rankInClass.toString());
-                }
+                RankInClass rankInClass = new RankInClass(course.getId(), classInfo.getId(),scoreService.getRankInClass(course.getId(),classInfo.getId()));
+                rankInClassList.add(rankInClass);
             }
         }
-
+        //根据成绩排名信息给每个学生排名
+        for(RankInClass rankInClass:rankInClassList) {
+            for(ScoreRank scoreRank:rankInClass.getScoreRankList()) {
+                int courseId = rankInClass.getCourseId();
+                int classId = rankInClass.getClassId();
+                int scoreNumber = scoreRank.getScoreNumber();
+                int rank = scoreRank.getRank();
+                scoreService.setRankInClass(courseId,classId,scoreNumber,rank);
+            }
+        }
         List<String> grades = classService.queryAllGrade();
+        //获取每个年级各课程的成绩的排名信息
         for(Course course:courses) {
-            for (String grade : grades) {
-                List<RankInGrade> rankInGradeList = scoreService.getRankInGrade(course.getId(),grade);
-                int rank=1;
-                for(RankInGrade rankInGrade:rankInGradeList) {
-                    List<Score> scores = scoreService.queryByCourseAndGradeAndScore(course.getId(),grade,rankInGrade.getScoreNumber());
-                    for(Score score:scores) {
-                        score.setRankInGrade(rank);
-                        scoreService.updateScore(score);
-                    }
-                    rank++;
-                }
+            for (String grade:grades) {
+                RankInGrade rankInGrade = new RankInGrade(course.getId(), grade, scoreService.getRankInGrade(course.getId(),grade));
+                rankInGradeList.add(rankInGrade);
             }
         }
-        return this.queryAllScore(model);
+        //给每个学生进行年级排名
+        for(RankInGrade rankInGrade:rankInGradeList) {
+            for(ScoreRank scoreRank:rankInGrade.getScoreRankList()) {
+                int courseId = rankInGrade.getCourseId();
+                String grade = rankInGrade.getGrade();
+                int scoreNumber = scoreRank.getScoreNumber();
+                int rank = scoreRank.getRank();
+                scoreService.setRankInGrade(courseId,grade,scoreNumber,rank);
+            }
+        }
     }
-
-    /*public void UpdateRankAfterInsert(Model model, Score score, ClassInfo classInfo, ) {
-
-    }*/
 
     /**
      * 成绩列表
@@ -92,6 +90,7 @@ public class ScoreController {
     public String queryAllScore(Model model) {
         List<Score> scores = scoreService.queryAllScore();
         List<StudentScore> list = new ArrayList<>();
+
         for (Score score : scores) {
             Course course = courseService.queryById(score.getCourseId());
             Student student = studentService.queryById(score.getStudentId());
@@ -149,7 +148,7 @@ public class ScoreController {
     @RequestMapping("/addScore")
     public String addScore(Model model,Score score ) {
         scoreService.updateScore(score);
-//        rankAll();
+        this.rankAll();
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.toAddScore(model, score.getCourseId(),classInfo.getGrade(), classInfo.getClassNumber());
@@ -221,7 +220,7 @@ public class ScoreController {
         score.setScoreNumber(scoreNumber);
         System.out.println(score.toString());
         scoreService.updateScore(score);
-//        rankAll();
+        this.rankAll();
         Student student = studentService.queryById(score.getStudentId());
         ClassInfo classInfo = classService.queryById(student.getClassId());
         return this.queryScore(model,score.getCourseId(),classInfo.getGrade(),classInfo.getClassNumber());
@@ -240,7 +239,7 @@ public class ScoreController {
         Score score = scoreService.queryByCourseAndStudent(course.getId(),studentId);
         score.setScoreNumber(-1);
         scoreService.updateScore(score);
-//        rankAll();
+        this.rankAll();
         ClassInfo classInfo = classService.queryById(studentService.queryById(studentId).getClassId());
         return this.queryScore(model,course.getId(),classInfo.getGrade(),classInfo.getClassNumber());
     }

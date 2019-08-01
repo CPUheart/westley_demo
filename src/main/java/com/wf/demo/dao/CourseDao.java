@@ -10,11 +10,6 @@ public interface CourseDao {
 
     Course queryById(int id);
 
-    Course queryByName(@Param("courseName") String name);
+    Course queryByName(@Param("name") String name);
 
-    int insertCourse(Course course);
-
-    int updateCourse(Course course);
-
-    int deleteByCourse(int id);
 }

@@ -12,15 +12,9 @@
         <result property="rankInGrade" column="rank_in_grade"/>
     </resultMap>
 
-    <resultMap id="scoreRankList" type="ScoreRank">
+    <resultMap id="scoreRankMap" type="ScoreRank">
         <id property="scoreNumber" column="score_number"/>
         <result property="rank" column="rank"/>
-    </resultMap>
-
-    <resultMap id="rankInGradeMap" type="com.wf.demo.entity.RankInGrade">
-        <id property="courseId" column="course_id"/>
-        <id property="grade" column="grade"/>
-        <result property="scoreNumber" column="score_number"/>
     </resultMap>
 
     <select id="queryAllScore" resultMap="scoreResultMap">
@@ -84,22 +78,22 @@
         where course_id=#{courseId} and student_id=#{studentId}
     </update>
 
-    <select id="getRankInClass" resultMap="scoreRankList">
+    <select id="getRankInClass" resultMap="scoreRankMap">
         select
-            sc.score_number,(@rowNum:=@rowNum+1)
+            sc.score_number
         from
-            score sc, student st, (Select (@rowNum :=0) ) b
+            score sc, student st, class c
         where
-            sc.student_id=st.id and sc.course_id=#{courseId} and st.class_id=#{classId}
+            sc.student_id=st.id and sc.course_id=#{courseId} and st.class_id=#{classId} and c.id = st.class_id
         group by
             sc.score_number
         order by
             sc.score_number DESC
     </select>
 
-    <select id="getRankInGrade" resultMap="rankInGradeMap">
+    <select id="getRankInGrade" resultMap="scoreRankMap">
         select
-              sc.course_id, c.grade, sc.score_number
+              sc.score_number
         from
               score sc,student st,class c
         where
@@ -109,5 +103,18 @@
         order by
             sc.score_number DESC
     </select>
+    <update id="setRankInClass">
+        update score sc,student st
+        set sc.rank_in_class = #{rank}
+        where sc.course_id=#{courseId} and sc.score_number=#{scoreNumber} and sc.student_id=st.id and st.class_id=#{classId}
+    </update>
+    <update id="setRankInGrade">
+        update score sc,student st,class c
+        set sc.rank_in_grade = #{rank}
+        where sc.course_id=#{courseId} and sc.score_number=#{scoreNumber} and sc.student_id=st.id and st.class_id = c.id and c.grade=#{grade}
+    </update>
+    <delete id="deleteScore">
+        delete from score where course_id=#{courseId} and student_id=#{studentId}
+    </delete>
 
 </mapper>

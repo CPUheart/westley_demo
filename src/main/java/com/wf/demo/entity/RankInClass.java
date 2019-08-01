@@ -16,6 +16,11 @@ public class RankInClass {
         this.courseId = courseId;
         this.classId = classId;
         this.scoreRankList = scoreRankList;
+        int rank=1;
+        for(ScoreRank scoreRank:scoreRankList) {
+            scoreRank.setRank(rank);
+            rank++;
+        }
     }
 
     public List<ScoreRank> getScoreRankList() {

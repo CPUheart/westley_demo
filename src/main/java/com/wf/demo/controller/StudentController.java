@@ -45,6 +45,8 @@ public class StudentController {
     public String list(Model model) {
         List<Student> students = studentService.queryAllStudent();
         List<StudentClass> list = new ArrayList<>();
+
+        //通过学生查询该学生的班级信息
         for (Student student:students) {
             ClassInfo classInfo = classService.queryById(student.getClassId());
             list.add(new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(), classInfo.getGrade(), classInfo.getClassNumber()));
@@ -61,8 +63,10 @@ public class StudentController {
      */
     @RequestMapping("/queryByName")
     public String queryByName(Model model, @RequestParam("name")String name) {
+        //根据姓名查找学生
         List<Student> students = studentService.queryByName(name);
         List<StudentClass> list = new ArrayList<>();
+        //根据学生查询班级信息
         for(Student student:students) {
             ClassInfo classInfo = classService.queryById(student.getClassId());
             list.add(new StudentClass(student.getId(),student.getName(),student.getGender(),student.getClassId(), classInfo.getGrade(), classInfo.getClassNumber()));
@@ -101,12 +105,15 @@ public class StudentController {
     @RequestMapping("/addStudent")
     public String addStudent(StudentClass studentClass,Model model) {
         ClassInfo classInfo = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
+        //判断添加学生时选择的班级是否存在
         if(classInfo ==null) {
             model.addAttribute("grade", studentClass.getGrade());
             model.addAttribute("classNumber", studentClass.getClassNumber());
             model.addAttribute("ErrorCode", 1);
             return "student/studentError";
-        } else if(studentService.queryById(studentClass.getId())!=null) {
+        }
+        //判断添加的学生的学号是否已经存在
+        else if(studentService.queryById(studentClass.getId())!=null) {
             model.addAttribute("ErrorCode",2);
             Student student = studentService.queryById(studentClass.getId());
             ClassInfo classInfo1 = classService.queryById(student.getClassId());
@@ -147,6 +154,10 @@ public class StudentController {
     @RequestMapping("/deleteStudent/{id}")
     public String deleteStudentById(@PathVariable("id")String id) {
         studentService.deleteStudent(id);
+        List<Course> courses = courseService.queryAllCourse();
+        for(Course course:courses) {
+            scoreService.deleteScore(course.getId(),id);
+        }
         return "redirect:/student/allStudent";
     }
 
@@ -159,6 +170,7 @@ public class StudentController {
     @RequestMapping("/updateStudent")
     public String updateStudent(Model model, StudentClass studentClass) {
         ClassInfo classInfo = classService.queryByGradeAndNumber(studentClass.getGrade(),studentClass.getClassNumber());
+        //判断修改后的学生所在班级是否存在
         if(classInfo ==null){
             model.addAttribute("grade",studentClass.getGrade());
             model.addAttribute("classNumber",studentClass.getClassNumber());

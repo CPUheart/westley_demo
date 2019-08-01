@@ -19,13 +19,11 @@ public interface ScoreDao {
 
     int updateScore(Score score);
 
-/*
     int deleteScore(@Param("courseId") int courseId,@Param("studentId") String studentId);
-*/
 
     List<ScoreRank> getRankInClass(@Param("courseId")int courseId, @Param("classId")int classId);
 
-    List<RankInGrade> getRankInGrade(@Param("courseId")int courseId, @Param("grade")String grade);
+    List<ScoreRank> getRankInGrade(@Param("courseId")int courseId, @Param("grade")String grade);
 
     List<Score> queryByCourseAndClass(@Param("courseId") int courseId,@Param("classId") int classId);
 
@@ -33,4 +31,7 @@ public interface ScoreDao {
 
     List<Score> queryByCourseAndGradeAndScore(@Param("courseId")int courseId, @Param("grade")String grade, @Param("scoreNumber")int scoreNumber);
 
+    int setRankInClass(@Param("courseId") int courseId, @Param("classId") int classId, @Param("scoreNumber") int scoreNumber, @Param("rank") int rank);
+
+    int setRankInGrade(@Param("courseId") int courseId, @Param("grade") String grade, @Param("scoreNumber") int scoreNumber, @Param("rank") int rank);
 }

@@ -29,18 +29,5 @@ public class CourseServiceImpl implements CourseService {
         return courseDao.queryByName(name);
     }
 
-    @Override
-    public int insertCourse(Course course) {
-        return courseDao.insertCourse(course);
-    }
 
-    @Override
-    public int updateCourse(Course course) {
-        return courseDao.updateCourse(course);
-    }
-
-    @Override
-    public int deleteByCourse(int id) {
-        return courseDao.deleteByCourse(id);
-    }
 }

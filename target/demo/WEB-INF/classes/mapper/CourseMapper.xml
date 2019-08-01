@@ -6,7 +6,6 @@
     <resultMap id="courseResultMap" type="Course">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="teacherId" column="teacher_id"/>
     </resultMap>
     <select id="queryAllCourse" resultMap="courseResultMap">
         select * from course;
@@ -20,17 +19,18 @@
         select * from course where id=#{id}
     </select>
 
-    <select id="queryByTeacherId" resultType="Course">
+   <!-- <select id="queryByTeacherId" resultType="Course">
         select * from course where teacher_id=#{teacherId}
-    </select>
+    </select>-->
 
-    <update id="updateCourse" parameterType="Course">
-        update Course set name=#{name}, open=#{open} where id=#{id}
-    </update>
+<!--    <update id="updateCourse" parameterType="Course">
+        update Course set name=#{name}
+        where id=#{id}
+    </update>-->
 
-    <update id="closeCourse">
+    <!--<update id="closeCourse">
         update course
         set open=0
         where id=#{id}
-    </update>
+    </update>-->
 </mapper>

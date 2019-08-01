@@ -45,14 +45,18 @@ public class TeacherController {
     public String list(Model model) {
         List<Teacher> teachers = teacherService.queryAllTeacher();
         List<TeacherAdvisor> list = new ArrayList<>();
+
+        //根据教师查询教授课程信息以及担任班主任的班级信息
         for(Teacher teacher:teachers) {
             int advisor;
             TeacherClass teacherClass = teacherClassService.queryByAdvisor(teacher.getId());
             if(teacherClass!=null) {
+                //该教师担任班主任
                 advisor=1;
                 ClassInfo classInfo = classService.queryById(teacherClass.getClassId());
                 list.add(new TeacherAdvisor(teacher.getId(),teacher.getName(),teacher.getGender(),advisor, classInfo.getId(), classInfo.getGrade(), classInfo.getClassNumber()));
             } else {
+                //该教师未担任班主任
                 advisor=0;
                 list.add(new TeacherAdvisor(teacher.getId(),teacher.getName(),teacher.getGender(),advisor,0,"",0));
             }
@@ -69,11 +73,12 @@ public class TeacherController {
     /**添加教师
      *
      * @param model
-     * @param teacher
+     * @param teacher 教师对象
      * @return
      */
     @RequestMapping("/addTeacher")
     public String addTeacher(Model model, Teacher teacher) {
+        //判断教师编号是否存在
         if(teacherService.queryById(teacher.getId())!=null) {
             model.addAttribute("ErrorCode",0);
             model.addAttribute("id",teacher.getId());
@@ -88,7 +93,7 @@ public class TeacherController {
     /**返回需要修改的教师信息
      *
      * @param model
-     * @param teacherId
+     * @param teacherId 教师编号
      * @return
      */
     @RequestMapping("/toUpdateTeacher")
@@ -99,7 +104,7 @@ public class TeacherController {
 
     /**修改教师信息
      *
-     * @param teacher
+     * @param teacher 教师对象
      * @return
      */
     @RequestMapping("/updateTeacher")
@@ -110,12 +115,13 @@ public class TeacherController {
 
     /**删除教师
      *
-     * @param teacherId
+     * @param teacherId 教师编号
      * @param model
      * @return
      */
     @RequestMapping("/deleteTeacher/{id}")
     public String deleteTeacherById(@PathVariable("id")String teacherId, Model model)  {
+        //判断该教师是否在某个班级任课，如果该教师还在担任某个班级的任课任务，不能删除
         if(teacherClassService.queryByTeacher(teacherId).isEmpty() == false) {
             model.addAttribute("ErrorCode",1);
             return "teacher/teacherError";
@@ -135,6 +141,7 @@ public class TeacherController {
         Teacher teacher = teacherService.queryById(teacherId);
         List<TeacherClass> teacherClasses = teacherClassService.queryByTeacher(teacherId);
         List<ClassCourse> list=new ArrayList<>();
+        //根据该教师任课信息获取该教师教授课程以及教授班级的详细信息
         for(TeacherClass teacherClass:teacherClasses) {
             ClassInfo classInfo = classService.queryById(teacherClass.getClassId());
             Course course = courseService.queryById(teacherClass.getCourseId());

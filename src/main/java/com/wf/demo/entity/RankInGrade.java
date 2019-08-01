@@ -1,17 +1,34 @@
 package com.wf.demo.entity;
 
-public class RankInGrade {
-    int courseId;
-    String grade;
-    int scoreNumber;
+import com.wf.demo.entity.combine.ScoreRank;
 
-    @Override
-    public String toString() {
-        return "RankInGrade{" +
-                "courseId=" + courseId +
-                ", grade='" + grade + '\'' +
-                ", scoreNumber=" + scoreNumber +
-                '}';
+import java.util.List;
+
+public class RankInGrade {
+    private int courseId;
+    private String grade;
+    private List<ScoreRank> scoreRankList;
+
+    public RankInGrade() {
+    }
+
+    public RankInGrade(int courseId, String grade, List<ScoreRank> scoreRankList) {
+        this.courseId = courseId;
+        this.grade = grade;
+        this.scoreRankList = scoreRankList;
+        int rank=1;
+        for(ScoreRank scoreRank:scoreRankList) {
+            scoreRank.setRank(rank);
+            rank++;
+        }
+    }
+
+    public List<ScoreRank> getScoreRankList() {
+        return scoreRankList;
+    }
+
+    public void setScoreRankList(List<ScoreRank> scoreRankList) {
+        this.scoreRankList = scoreRankList;
     }
 
     public int getCourseId() {
@@ -28,22 +45,5 @@ public class RankInGrade {
 
     public void setGrade(String grade) {
         this.grade = grade;
-    }
-
-    public int getScoreNumber() {
-        return scoreNumber;
-    }
-
-    public void setScoreNumber(int scoreNumber) {
-        this.scoreNumber = scoreNumber;
-    }
-
-    public RankInGrade(int courseId, String grade, int scoreNumber) {
-        this.courseId = courseId;
-        this.grade = grade;
-        this.scoreNumber = scoreNumber;
-    }
-
-    public RankInGrade() {
     }
 }

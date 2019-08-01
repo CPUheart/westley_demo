@@ -94,9 +94,11 @@
                 <th>操作</th>
                 </thead>
                 <tbody>
+                <% int count=0; %>
                 <c:forEach var="StudentScore" items="${requestScope.get('list')}" varStatus="status">
+
                     <tr>
-                        <form name="scoreForm">
+                        <form name="scoreForm" action="<%=basePath %>score/updateScore" method="post">
                             <td hidden><input type="text" name="courseId" value="${StudentScore.courseId}"></td>
                             <td><input type="text" name="studentId" value="${StudentScore.studentId}" readonly></td>
                             <td><input type="text" value="${StudentScore.studentName}" disabled></td>
@@ -104,15 +106,20 @@
                             <td><input type="text" name="rankInClass" value="${StudentScore.rankInClass}" readonly /></td>
                             <td><input type="text" name="rankInGrade" value="${StudentScore.rankInGrade}" readonly/></td>
                             <td>
-                                <input type="button" value="修改" onclick="updateScore()">
+                                <input type="submit" value="修改" />
                                 <a href="javascript:deleteScore('${StudentScore.studentId}','${StudentScore.courseName}')">删除</a>
                                 <script type="text/javascript">
-                                    function updateScore() {
-                                        var form = document.forms['scoreForm'];
+                                    /*function updateScore() {
+                                        var courseId=arguments[0];
+                                        var studentId=arguments[1];
+                                        var formName='scoreForm'+courseId+studentId;
+                                        alter('1');
+                                        var form = document.forms[formName];
+                                        alter('2');
                                         form.action = "<%=basePath %>score/updateScore";
                                         form.method = "post";
                                         form.submit();
-                                    }
+                                    }*/
                                     function deleteScore() {
                                         var id= arguments[0];
                                         var name=arguments[1];
